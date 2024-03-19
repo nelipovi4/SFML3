@@ -4,6 +4,7 @@
 
 int main()
 {
+
     sf::RenderWindow window(sf::VideoMode(800, 600), L"Счетчик кликов мыши");
     sf::Font font;
     if (!font.loadFromFile("shrift.ttf")) // Замените на путь к вашему шрифту
