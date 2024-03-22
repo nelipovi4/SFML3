@@ -21,6 +21,7 @@ struct List
     List* next;
 };
 
+
 void write_file(List* u) {
     std::ofstream write;
     write.open("data.txt", std::ios::app);
@@ -37,57 +38,102 @@ void write_file(List* u) {
     write.close();
 }
 
-void create_list(int age, std::string education, std::string gender, std::string answer) {
-    List* u = NULL;
-    Data data = { age, education, gender, answer };
-    if (u == NULL)
+//List* create_list(int age, std::string education, std::string gender, std::string answer) {
+//    List* u = NULL;
+//    Data data = { age, education, gender, answer };
+//    if (u == NULL)
+//    {
+//        u = new List{ data, NULL };
+//    }
+//    else
+//    {
+//        List* x = u;
+//        while (x->next)
+//        {
+//            x = x->next;
+//        }
+//        x->next = new List{ data, NULL };
+//    }
+//    write_file(u);
+//    return u;
+//}
+
+int Man_scarier40_higher_yes(List* u) {
+    int kol = 0;
+    List* p = u;
+    while (p)
     {
+        if (p->d.age > 40 && p->d.gender == "man" && p->d.education == "higher" && p->d.answer == "yes") {
+            kol++;
+        }
+        p = p->next;
+    }
+    return kol;
+}
+
+void ask(List*& u, int age, std::string education, std::string gender, std::string answer) {
+    
+    Data data = { age, education, gender, answer };
+    List* x = u;
+    if (x == NULL) {
         u = new List{ data, NULL };
     }
-    else
-    {
-        List* x = u;
-        while (x->next)
-        {
+    else {
+        while (x->next) {
             x = x->next;
         }
         x->next = new List{ data, NULL };
     }
-    write_file(u);
+}
+
+void load_file(List*& u) {
+    std::ifstream file("data.txt");
+    file.is_open();
+
+    Data data;
+    while (file >> data.gender >> data.age >> data.education  >> data.answer) {
+        List* x = u;
+        if (x == NULL) {
+            u = new List{ data, NULL };
+        }
+        else {
+            while (x->next) {
+                x = x->next;
+            }
+            x->next = new List{ data, NULL };
+        }
+    }
+
+    file.close();
 }
 
 
 
-
-
-
-
-
-
-void menu_2(sf::RenderWindow& window, sf::Music& music, sf::Music& music2, sf::Music& music3);
-void menu_1(sf::RenderWindow& window, sf::Music& music);
-void menu_3(sf::RenderWindow& window, sf::Music& music);
-void menu_4(sf::RenderWindow& window, sf::Music& music);
-void menu_5(sf::RenderWindow& window, sf::Music& music);
+void menu_2(sf::RenderWindow& window, sf::Music& music, sf::Music& music2, sf::Music& music3, List* u, sf::Music& music4);
+void menu_1(sf::RenderWindow& window, sf::Music& music, List* u);
+void menu_3(sf::RenderWindow& window, sf::Music& music, List* u);
+void menu_4(sf::RenderWindow& window, sf::Music& music, List* u);
+void menu_5(sf::RenderWindow& window, sf::Music& music, List* u);
 
 
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML window", sf::Style::Fullscreen);
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML window"); //sf::Style::Fullscreen);
     sf::Music music;
     music.openFromFile("music\\kahoot2.wav");
     music.play();
     music.setLoop(true);
-
-    menu_1(window, music);
+    List* u = NULL;
+    load_file(u);
+    menu_1(window, music,u);
 
 
 }
 
-void menu_2(sf::RenderWindow& window, sf::Music& music, sf::Music& music2, sf::Music& music3) {
+void menu_2(sf::RenderWindow& window, sf::Music& music, sf::Music& music2, sf::Music& music3, List* u, sf::Music& music4) {
     int kol = 0;
-
+    List* p = u;
     //блоки
     sf::RectangleShape rectangle_gendar(sf::Vector2f(700, 70));
     rectangle_gendar.setPosition(600, 150);
@@ -128,6 +174,11 @@ void menu_2(sf::RenderWindow& window, sf::Music& music, sf::Music& music2, sf::M
     texture.loadFromFile("foto\\foto.jpg");
     sf::Sprite sprite(texture);
     sprite.setPosition(400, 400);
+
+    sf::Texture texture5;
+    texture5.loadFromFile("foto\\Zhe.jpg");
+    sf::Sprite spriteZ(texture5);
+    spriteZ.setPosition(400, 400);
 
     sf::Texture fon2;
     fon2.loadFromFile("foto\\menu2.jpg");
@@ -339,7 +390,7 @@ void menu_2(sf::RenderWindow& window, sf::Music& music, sf::Music& music2, sf::M
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (button_back.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        menu_1(window, music);
+                        menu_1(window, music,p);
                     }
                     if (button_next.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
                         //1
@@ -357,6 +408,11 @@ void menu_2(sf::RenderWindow& window, sf::Music& music, sf::Music& music2, sf::M
                             music.stop();
                             kol = 4;
                             music2.play();
+                        }
+                        else if (text_write_gander.getString() == "PIVA") {
+                            music.stop();
+                            kol = 5;
+                            music4.play();
                         }
                         else {
                             text_check_gendar.setFillColor(sf::Color::Red);
@@ -398,9 +454,10 @@ void menu_2(sf::RenderWindow& window, sf::Music& music, sf::Music& music2, sf::M
                             correct_block_4 = 0;
                         }
                         if (correct_block_1 > 0 && correct_block_2 > 0 && correct_block_3 > 0 && correct_block_4 > 0) {
-                            create_list(intValue, text_write_education.getString(), text_write_gander.getString(), text_write_vopros.getString());
+
+                             ask(u,intValue, text_write_education.getString(), text_write_gander.getString(), text_write_vopros.getString());
                             window.clear();
-                            menu_3(window, music);
+                            menu_3(window, music,u);
                         }
                     }
                 }
@@ -445,13 +502,17 @@ void menu_2(sf::RenderWindow& window, sf::Music& music, sf::Music& music2, sf::M
             window.clear(sf::Color::White);
             window.draw(spriteSa);
             window.display();
+        }
+        else if (kol == 5) {
 
+            window.clear(sf::Color::White);
+            window.draw(spriteZ);
+            window.display();
         }
     }
 }
 
-void menu_1(sf::RenderWindow& window, sf::Music& music) {
-
+void menu_1(sf::RenderWindow& window, sf::Music& music, List* u) {
     sf::Texture fon;
     fon.loadFromFile("foto\\menu_1.jpg");
 
@@ -464,6 +525,8 @@ void menu_1(sf::RenderWindow& window, sf::Music& music) {
     sf::Music music3;
     music3.openFromFile("music\\gy.wav");
 
+    sf::Music music4;
+    music4.openFromFile("music\\Zhe.wav");
 
     sf::RectangleShape button_start(sf::Vector2f(490, 100));
     button_start.setPosition(690, 350);
@@ -522,14 +585,14 @@ void menu_1(sf::RenderWindow& window, sf::Music& music) {
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (button_result.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        menu_4(window, music);
+                        menu_4(window, music,u);
                     }
                 }
             }
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (button_start.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        menu_2(window, music, music2, music3);
+                        menu_2(window, music, music2, music3, u, music4);
                     }
                 }
             }
@@ -549,7 +612,7 @@ void menu_1(sf::RenderWindow& window, sf::Music& music) {
     }
 }
 
-void menu_3(sf::RenderWindow& window, sf::Music& music) {
+void menu_3(sf::RenderWindow& window, sf::Music& music, List* u) {
 
     //блоки
 
@@ -583,7 +646,7 @@ void menu_3(sf::RenderWindow& window, sf::Music& music) {
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (button_menu.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        menu_1(window, music);
+                        menu_1(window, music,u);
                     }
                 }
             }
@@ -598,9 +661,8 @@ void menu_3(sf::RenderWindow& window, sf::Music& music) {
 
 }
 
-void menu_4(sf::RenderWindow& window, sf::Music& music) {
-
-
+void menu_4(sf::RenderWindow& window, sf::Music& music, List* u) {
+    //шрифт и картинки
     sf::Font font;
     font.loadFromFile("shriftu\\Shrift.ttf");
 
@@ -615,6 +677,7 @@ void menu_4(sf::RenderWindow& window, sf::Music& music) {
     img_tabl.setPosition(1400, 750);
     img_tabl.setScale(2.30, 2.30);
 
+    //блоки
     sf::RectangleShape button_menu(sf::Vector2f(200, 70));
     button_menu.setPosition(1540, 780);
     button_menu.setFillColor(sf::Color::Transparent);
@@ -627,9 +690,14 @@ void menu_4(sf::RenderWindow& window, sf::Music& music) {
     button_rest.setPosition(1540, 880);
     button_rest.setFillColor(sf::Color::Transparent);
 
+    //текст
     sf::Text text_button_rest(L"ДРУГИЕ", font, 60);
     text_button_rest.setPosition(1545, 870);
     text_button_rest.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_man_scarier40_higher_yes("", font, 60);
+    num_man_scarier40_higher_yes.setPosition(500, 500);
+    num_man_scarier40_higher_yes.setFillColor(sf::Color(255, 235, 205));
 
     while (window.isOpen()) {
         sf::Event event;
@@ -640,19 +708,21 @@ void menu_4(sf::RenderWindow& window, sf::Music& music) {
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (button_menu.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        menu_1(window, music);
+                        menu_1(window, music,u);
                     }
                 }
             }
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (button_rest.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        menu_5(window, music);
+                        menu_5(window, music, u);
                     }
                 }
             }
         }
-
+        int clickCount = Man_scarier40_higher_yes(u);
+        std::string ss = std::to_string(clickCount);
+        num_man_scarier40_higher_yes.setString(ss);
 
         window.clear();
         window.draw(img_menu4);
@@ -661,11 +731,12 @@ void menu_4(sf::RenderWindow& window, sf::Music& music) {
         window.draw(text_button_menu);
         window.draw(button_rest);
         window.draw(text_button_rest);
+        window.draw(num_man_scarier40_higher_yes);
         window.display();
     }
 }
 
-void menu_5(sf::RenderWindow& window, sf::Music& music) {
+void menu_5(sf::RenderWindow& window, sf::Music& music, List* u) {
 
     //блоки
 
