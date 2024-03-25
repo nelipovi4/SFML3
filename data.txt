@@ -6,3 +6,10 @@ man 123 higher yes
 man 45 higher yes
 man 123 higher yes
 man 55 higher yes
+man 23 initial no
+woman 23 initial no
+woman 5 average no
+man 5 initial yes
+woman 11 average no
+man 116 higher no
+man 1 initial yes
