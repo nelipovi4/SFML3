@@ -13,3 +13,7 @@ man 5 initial yes
 woman 11 average no
 man 116 higher no
 man 1 initial yes
+man 18 higher yes
+man 123 average no
+man 100 average yes
+man 18 average yes

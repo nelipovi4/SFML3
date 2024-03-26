@@ -31,6 +31,19 @@ void write_file(int age, std::string education, std::string gender, std::string 
     write.close();
 }
 
+//////////////////////////////////////////////////////////////////////////
+int Man_younger25_initial_yes(List* u) {
+    int kol = 0;
+    List* p = u;
+    while (p)
+    {
+        if (p->d.age < 25 && p->d.gender == "man" && p->d.education == "initial" && p->d.answer == "yes") {
+            kol++;
+        }
+        p = p->next;
+    }
+    return kol;
+}
 
 int Man_scarier40_higher_yes(List* u) {
     int kol = 0;
@@ -57,19 +70,140 @@ int Women_younger30_average_no(List* u) {
     }
     return kol;
 }
+///////////////////////////////
 
-int Man_younger25_initial_yes(List* u) {
+int Man_scarier50_averaeg_yes(List* u) {
     int kol = 0;
     List* p = u;
     while (p)
     {
-        if (p->d.age < 25 && p->d.gender == "man" && p->d.education == "initial" && p->d.answer == "yes") {
+        if (p->d.age > 51 && p->d.gender == "man" && p->d.education == "average" && p->d.answer == "yes") {
             kol++;
         }
         p = p->next;
     }
     return kol;
 }
+
+int Man_scarier50_average_no(List* u) {
+    int kol = 0;
+    List* p = u;
+    while (p)
+    {
+        if (p->d.age > 51 && p->d.gender == "man" && p->d.education == "average" && p->d.answer == "no") {
+            kol++;
+        }
+        p = p->next;
+    }
+    return kol;
+}
+
+int Man_younger50_average_no(List* u) {
+    int kol = 0;
+    List* p = u;
+    while (p)
+    {
+        if (p->d.age < 50 && p->d.gender == "man" && p->d.education == "younger" && p->d.answer == "no") {
+            kol++;
+        }
+        p = p->next;
+    }
+    return kol;
+}
+
+int Man_younger50_average_yes(List* u) {
+    int kol = 0;
+    List* p = u;
+    while (p)
+    {
+        if (p->d.age < 50 && p->d.gender == "man" && p->d.education == "younger" && p->d.answer == "yes") {
+            kol++;
+        }
+        p = p->next;
+    }
+    return kol;
+}
+///////////////////////////////////
+
+int Man_younger25_initial_no(List* u) {
+    int kol = 0;
+    List* p = u;
+    while (p)
+    {
+        if (p->d.age < 26 && p->d.gender == "man" && p->d.education == "initial" && p->d.answer == "no") {
+            kol++;
+        }
+        p = p->next;
+    }
+    return kol;
+}
+
+int Man_scarier25_initial_yes(List* u) {
+    int kol = 0;
+    List* p = u;
+    while (p)
+    {
+        if (p->d.age > 50 && p->d.gender == "man" && p->d.education == "initial" && p->d.answer == "yes") {
+            kol++;
+        }
+        p = p->next;
+    }
+    return kol;
+}
+
+int Man_scarier25_initial_no(List* u) {
+    int kol = 0;
+    List* p = u;
+    while (p)
+    {
+        if (p->d.age > 50 && p->d.gender == "man" && p->d.education == "initial" && p->d.answer == "no") {
+            kol++;
+        }
+        p = p->next;
+    }
+    return kol;
+}
+///////////////////////////////////
+
+int Man_scarier40_higher_no(List* u) {
+    int kol = 0;
+    List* p = u;
+    while (p)
+    {
+        if (p->d.age > 40 && p->d.gender == "man" && p->d.education == "higher" && p->d.answer == "no") {
+            kol++;
+        }
+        p = p->next;
+    }
+    return kol;
+}
+
+int Man_younger40_higher_yes(List* u) {
+    int kol = 0;
+    List* p = u;
+    while (p)
+    {
+        if (p->d.age <= 40 && p->d.gender == "man" && p->d.education == "younger" && p->d.answer == "yes") {
+            kol++;
+        }
+        p = p->next;
+    }
+    return kol;
+}
+
+int Man_younger40_higher_no(List* u) {
+    int kol = 0;
+    List* p = u;
+    while (p)
+    {
+        if (p->d.age <= 40 && p->d.gender == "man" && p->d.education == "younger" && p->d.answer == "no") {
+            kol++;
+        }
+        p = p->next;
+    }
+    return kol;
+}
+///////////////////////////////////////////////////////////////////////////////////
 
 void create_list(List*& u, int age, std::string education, std::string gender, std::string answer) {
     write_file(age, education, gender, answer);
@@ -114,7 +248,7 @@ void menu_great(sf::RenderWindow& window, sf::Music& music, List* u);
 void menu_result(sf::RenderWindow& window, sf::Music& music, List* u);
 void menu_m(sf::RenderWindow& window, sf::Music& music, List* u);
 void menu_w(sf::RenderWindow& window, sf::Music& music, List* u);
-
+void menu_settings(sf::RenderWindow& window, sf::Music& music, List* u);
 
 int main()
 {
@@ -299,12 +433,14 @@ void menu_anketa(sf::RenderWindow& window, sf::Music& music, sf::Music& music2, 
         sf::Event event;
         while (window.pollEvent(event))
         {
+            //закрытие программы на кнопку
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
                 window.close();
             }
-
+            //запрет на области
             if (event.type == sf::Event::MouseButtonPressed)
             {
+
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
                     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
@@ -340,6 +476,7 @@ void menu_anketa(sf::RenderWindow& window, sf::Music& music, sf::Music& music2, 
 
             }
 
+            //написание и пределы по буквам
             if (event.type == sf::Event::TextEntered)
             {
                 if (event.text.unicode < 128)
@@ -532,6 +669,7 @@ void menu_anketa(sf::RenderWindow& window, sf::Music& music, sf::Music& music2, 
 }
 
 void menu_main(sf::RenderWindow& window, sf::Music& music, List* u) {
+
     sf::Texture fon;
     fon.loadFromFile("foto\\menu_1.jpg");
 
@@ -550,6 +688,7 @@ void menu_main(sf::RenderWindow& window, sf::Music& music, List* u) {
     sf::Music music6;
     music6.openFromFile("music\\mat.wav");
 
+    //блоки
     sf::RectangleShape button_start(sf::Vector2f(490, 100));
     button_start.setPosition(690, 350);
     button_start.setFillColor(sf::Color::Transparent); // Прозрачный цвет заливки
@@ -557,11 +696,11 @@ void menu_main(sf::RenderWindow& window, sf::Music& music, List* u) {
     button_start.setOutlineThickness(2); // Толщина контура
 
 
-    sf::RectangleShape button_result(sf::Vector2f(490, 100));
-    button_result.setPosition(690, 550);
-    button_result.setFillColor(sf::Color::Transparent);
-    button_result.setOutlineColor(sf::Color::Black);
-    button_result.setOutlineThickness(2);
+    sf::RectangleShape button_settings(sf::Vector2f(490, 100));
+    button_settings.setPosition(690, 550);
+    button_settings.setFillColor(sf::Color::Transparent);
+    button_settings.setOutlineColor(sf::Color::Black);
+    button_settings.setOutlineThickness(2);
 
     sf::RectangleShape button_end(sf::Vector2f(490, 100));
     button_end.setPosition(690, 750);
@@ -569,21 +708,18 @@ void menu_main(sf::RenderWindow& window, sf::Music& music, List* u) {
     button_end.setOutlineColor(sf::Color::Black);
     button_end.setOutlineThickness(2);
 
+    //шрифт
     sf::Font font;
     font.loadFromFile("shriftu\\pirat.otf");
 
-
-
-
-
-
+    //текст
     sf::Text text_button_start(L"Пройти анкету", font, 65);
     text_button_start.setPosition(700, 355);
     text_button_start.setFillColor(sf::Color::Black);
 
-    sf::Text text_button_result(L"Результаты", font, 65);
-    text_button_result.setPosition(750, 555);
-    text_button_result.setFillColor(sf::Color::Black);
+    sf::Text text_button_settings(L"Настройки", font, 65);
+    text_button_settings.setPosition(770, 555);
+    text_button_settings.setFillColor(sf::Color::Black);
 
     sf::Text text_button_end(L"Выход", font, 65);
     text_button_end.setPosition(830, 755);
@@ -606,8 +742,8 @@ void menu_main(sf::RenderWindow& window, sf::Music& music, List* u) {
 
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
-                    if (button_result.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        menu_result(window, music,u);
+                    if (button_settings.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        menu_settings(window, music,u);
                     }
                 }
             }
@@ -625,8 +761,8 @@ void menu_main(sf::RenderWindow& window, sf::Music& music, List* u) {
         window.clear();
         window.draw(sprite);
         window.draw(button_start);
-        window.draw(button_result);
-        window.draw(text_button_result);
+        window.draw(button_settings);
+        window.draw(text_button_settings);
         window.draw(button_end);
         window.draw(text_button_end);
         window.draw(text_button_start);
@@ -751,6 +887,7 @@ void menu_result(sf::RenderWindow& window, sf::Music& music, List* u) {
                 }
             }
         }
+        //цифры для счёта
         std::string str_1_card = std::to_string(Man_scarier40_higher_yes(u));
         std::string str_2_card = std::to_string(Women_younger30_average_no(u));
         std::string str_3_card = std::to_string(Man_younger25_initial_yes(u));
@@ -859,6 +996,45 @@ void menu_m(sf::RenderWindow& window, sf::Music& music, List* u) {
     text_button_menu.setPosition(500, 500);
     text_button_menu.setFillColor(sf::Color::White);
 
+    sf::Text  num_man_scarier50_averaeg_yes("", font, 50);
+    num_man_scarier50_averaeg_yes.setPosition(678, 385);
+    num_man_scarier50_averaeg_yes.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_man_younger25_initial_no("", font, 50);
+    num_man_younger25_initial_no.setPosition(400, 385);
+    num_man_younger25_initial_no.setFillColor(sf::Color(255, 235, 205)); 
+
+    sf::Text num_man_scarier25_initial_yes("", font, 50);
+    num_man_scarier25_initial_yes.setPosition(412, 873);
+    num_man_scarier25_initial_yes.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_man_scarier50_average_no("", font, 50);
+    num_man_scarier50_average_no.setPosition(992, 388);
+    num_man_scarier50_average_no.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_man_scarier25_initial_no("", font, 50);
+    num_man_scarier25_initial_no.setPosition(735, 873);
+    num_man_scarier25_initial_no.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_man_younger50_average_no("", font, 50);
+    num_man_younger50_average_no.setPosition(1310, 385);
+    num_man_younger50_average_no.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_man_younger50_average_yes("", font, 50);
+    num_man_younger50_average_yes.setPosition(1622, 385);
+    num_man_younger50_average_yes.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_man_scarier40_higher_no("", font, 50);
+    num_man_scarier40_higher_no.setPosition(1040, 870);
+    num_man_scarier40_higher_no.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_man_younger40_higher_yes("", font, 50);
+    num_man_younger40_higher_yes.setPosition(1340, 870);
+    num_man_younger40_higher_yes.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_man_younger40_higher_no("", font, 50);
+    num_man_younger40_higher_no.setPosition(1620, 872);
+    num_man_younger40_higher_no.setFillColor(sf::Color(255, 235, 205));
 
     while (window.isOpen()) {
         sf::Event event;
@@ -868,10 +1044,41 @@ void menu_m(sf::RenderWindow& window, sf::Music& music, List* u) {
             }
 
         }
+        std::string str_scarier50_average_no = std::to_string(Man_scarier50_average_no(u));
+        std::string str_scarier25_initial_yes = std::to_string(Man_scarier25_initial_yes(u));
+        std::string str_scarier50_averaeg_yes = std::to_string(Man_scarier50_averaeg_yes(u));
+        std::string str_younger25_initial_no = std::to_string(Man_younger25_initial_no(u));
+        std::string str_scarier25_initial_no = std::to_string(Man_scarier25_initial_no(u));
+        std::string str_younger50_average_no = std::to_string(Man_younger50_average_no(u));
+        std::string str_younger50_average_yes = std::to_string(Man_younger50_average_yes(u));
+        std::string str_scarier40_higher_no = std::to_string(Man_scarier40_higher_no(u));
+        std::string str_younger40_higher_yes = std::to_string(Man_younger40_higher_yes(u));
+        std::string str_younger40_higher_no = std::to_string(Man_younger40_higher_no(u));
+
+        num_man_scarier50_average_no.setString(str_scarier50_average_no);
+        num_man_scarier25_initial_yes.setString(str_scarier25_initial_yes);
+        num_man_younger25_initial_no.setString(str_younger25_initial_no);
+        num_man_scarier50_averaeg_yes.setString(str_scarier50_averaeg_yes);
+        num_man_scarier25_initial_no.setString(str_scarier25_initial_no);
+        num_man_younger50_average_no.setString(str_younger50_average_no);
+        num_man_younger50_average_yes.setString(str_younger50_average_yes);
+        num_man_scarier40_higher_no.setString(str_scarier40_higher_no);
+        num_man_younger40_higher_yes.setString(str_younger40_higher_yes);
+        num_man_younger40_higher_no.setString(str_younger40_higher_no);
 
         window.clear();
         window.draw(img_menu_m);
         window.draw(text_button_menu);
+        window.draw(num_man_scarier50_average_no);
+        window.draw(num_man_scarier25_initial_yes);
+        window.draw(num_man_younger25_initial_no);
+        window.draw(num_man_scarier50_averaeg_yes);
+        window.draw(num_man_scarier25_initial_no);
+        window.draw(num_man_younger50_average_no);
+        window.draw(num_man_younger50_average_yes);
+        window.draw(num_man_scarier40_higher_no);
+        window.draw(num_man_younger40_higher_yes);
+        window.draw(num_man_younger40_higher_no);
         window.display();
     }
 
@@ -911,6 +1118,92 @@ void menu_w(sf::RenderWindow& window, sf::Music& music, List* u) {
         window.clear();
         window.draw(img_menu_w);
         window.draw(text_button_menu);
+        window.display();
+    }
+
+}
+
+void menu_settings(sf::RenderWindow& window, sf::Music& music, List* u) {
+
+    //блоки
+    sf::RectangleShape button_admin(sf::Vector2f(490, 100));
+    button_admin.setPosition(690, 150);
+    button_admin.setFillColor(sf::Color::Transparent); // Прозрачный цвет заливки
+    button_admin.setOutlineColor(sf::Color::Black); // Черный цвет контура
+    button_admin.setOutlineThickness(2); // Толщина контура
+
+
+    sf::RectangleShape button_music(sf::Vector2f(490, 100));
+    button_music.setPosition(690, 350);
+    button_music.setFillColor(sf::Color::Transparent);
+    button_music.setOutlineColor(sf::Color::Black);
+    button_music.setOutlineThickness(2);
+
+    sf::RectangleShape button_app(sf::Vector2f(490, 100));
+    button_app.setPosition(690, 550);
+    button_app.setFillColor(sf::Color::Transparent);
+    button_app.setOutlineColor(sf::Color::Black);
+    button_app.setOutlineThickness(2);
+
+    sf::RectangleShape button_end(sf::Vector2f(490, 100));
+    button_end.setPosition(690, 750);
+    button_end.setFillColor(sf::Color::Transparent);
+    button_end.setOutlineColor(sf::Color::Black);
+    button_end.setOutlineThickness(2);
+
+    //шрифт и картинки
+    sf::Font font;
+    font.loadFromFile("shriftu\\pirat.otf");
+
+    sf::Texture fon;
+    fon.loadFromFile("foto\\menu_na.jpg");
+    sf::Sprite img_menu(fon);
+    img_menu.setPosition(0, 0);
+    img_menu.setScale(1.30, 1.30);
+
+    //текст
+
+    sf::Text text_button_admin(L"ДЛЯ АДМИНА", font, 65);
+    text_button_admin.setPosition(755, 155);
+    text_button_admin.setFillColor(sf::Color::Black);
+
+    sf::Text text_button_music(L"МУЗЫКА", font, 65);
+    text_button_music.setPosition(820, 355);
+    text_button_music.setFillColor(sf::Color::Black);
+
+    sf::Text text_button_app(L"О ПРИЛОЖЕНИИ", font, 65);
+    text_button_app.setPosition(710, 555);
+    text_button_app.setFillColor(sf::Color::Black);
+
+    sf::Text text_button_end(L"НАЗАД", font, 65);
+    text_button_end.setPosition(840, 755);
+    text_button_end.setFillColor(sf::Color::Black);
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+                window.close();
+            }
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    if (button_end.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        menu_main(window, music, u);
+                    }
+                }
+            }
+        }
+
+        window.clear();
+        window.draw(img_menu);
+        window.draw(button_admin);
+        window.draw(button_music);
+        window.draw(text_button_music);
+        window.draw(button_end);
+        window.draw(text_button_end);
+        window.draw(text_button_admin);
+        window.draw(button_app);
+        window.draw(text_button_app);
         window.display();
     }
 
