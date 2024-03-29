@@ -132,6 +132,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="man_woman.h" />
+    <ClCompile Include="man_woman_fun.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="openal32.dll" />

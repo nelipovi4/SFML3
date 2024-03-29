@@ -4,21 +4,15 @@
 #include <string>
 #include <fstream>
 #include <windows.h> 
+
+#include "man_woman.h"
+
 //массив
-struct Data
-{
-    int age;
-    std::string education;
-    std::string gender;
-    std::string answer;
-};
 
-struct List
-{
-    Data d;
-    List* next;
-};
 
+List* u = NULL;
+sf::Music music;
+sf::RenderWindow window(sf::VideoMode(1920, 1080), "no HUESOS", sf::Style::Fullscreen);
 
 void write_file(int age, std::string education, std::string gender, std::string answer) {
     std::ofstream write;
@@ -31,181 +25,9 @@ void write_file(int age, std::string education, std::string gender, std::string 
     write.close();
 }
 
-//////////////////////////////////////////////////////////////////////////
-int Man_younger25_initial_yes(List* u) {
-    int kol = 0;
-    List* p = u;
-    while (p)
-    {
-        if (p->d.age < 25 && p->d.gender == "man" && p->d.education == "initial" && p->d.answer == "yes") {
-            kol++;
-        }
-        p = p->next;
-    }
-    return kol;
-}
 
-int Man_scarier40_higher_yes(List* u) {
-    int kol = 0;
-    List* p = u;
-    while (p)
-    {
-        if (p->d.age > 40 && p->d.gender == "man" && p->d.education == "higher" && p->d.answer == "yes") {
-            kol++;
-        }
-        p = p->next;
-    }
-    return kol;
-}
 
-int Women_younger30_average_no(List* u) {
-    int kol = 0;
-    List* p = u;
-    while (p)
-    {
-        if (p->d.age < 30 && p->d.gender == "woman" && p->d.education == "average" && p->d.answer == "no") {
-            kol++;
-        }
-        p = p->next;
-    }
-    return kol;
-}
-///////////////////////////////
-
-int Man_scarier50_averaeg_yes(List* u) {
-    int kol = 0;
-    List* p = u;
-    while (p)
-    {
-        if (p->d.age > 51 && p->d.gender == "man" && p->d.education == "average" && p->d.answer == "yes") {
-            kol++;
-        }
-        p = p->next;
-    }
-    return kol;
-}
-
-int Man_scarier50_average_no(List* u) {
-    int kol = 0;
-    List* p = u;
-    while (p)
-    {
-        if (p->d.age > 51 && p->d.gender == "man" && p->d.education == "average" && p->d.answer == "no") {
-            kol++;
-        }
-        p = p->next;
-    }
-    return kol;
-}
-
-int Man_younger50_average_no(List* u) {
-    int kol = 0;
-    List* p = u;
-    while (p)
-    {
-        if (p->d.age < 50 && p->d.gender == "man" && p->d.education == "younger" && p->d.answer == "no") {
-            kol++;
-        }
-        p = p->next;
-    }
-    return kol;
-}
-
-int Man_younger50_average_yes(List* u) {
-    int kol = 0;
-    List* p = u;
-    while (p)
-    {
-        if (p->d.age < 50 && p->d.gender == "man" && p->d.education == "younger" && p->d.answer == "yes") {
-            kol++;
-        }
-        p = p->next;
-    }
-    return kol;
-}
-///////////////////////////////////
-
-int Man_younger25_initial_no(List* u) {
-    int kol = 0;
-    List* p = u;
-    while (p)
-    {
-        if (p->d.age < 26 && p->d.gender == "man" && p->d.education == "initial" && p->d.answer == "no") {
-            kol++;
-        }
-        p = p->next;
-    }
-    return kol;
-}
-
-int Man_scarier25_initial_yes(List* u) {
-    int kol = 0;
-    List* p = u;
-    while (p)
-    {
-        if (p->d.age > 50 && p->d.gender == "man" && p->d.education == "initial" && p->d.answer == "yes") {
-            kol++;
-        }
-        p = p->next;
-    }
-    return kol;
-}
-
-int Man_scarier25_initial_no(List* u) {
-    int kol = 0;
-    List* p = u;
-    while (p)
-    {
-        if (p->d.age > 50 && p->d.gender == "man" && p->d.education == "initial" && p->d.answer == "no") {
-            kol++;
-        }
-        p = p->next;
-    }
-    return kol;
-}
-///////////////////////////////////
-
-int Man_scarier40_higher_no(List* u) {
-    int kol = 0;
-    List* p = u;
-    while (p)
-    {
-        if (p->d.age > 40 && p->d.gender == "man" && p->d.education == "higher" && p->d.answer == "no") {
-            kol++;
-        }
-        p = p->next;
-    }
-    return kol;
-}
-
-int Man_younger40_higher_yes(List* u) {
-    int kol = 0;
-    List* p = u;
-    while (p)
-    {
-        if (p->d.age <= 40 && p->d.gender == "man" && p->d.education == "younger" && p->d.answer == "yes") {
-            kol++;
-        }
-        p = p->next;
-    }
-    return kol;
-}
-
-int Man_younger40_higher_no(List* u) {
-    int kol = 0;
-    List* p = u;
-    while (p)
-    {
-        if (p->d.age <= 40 && p->d.gender == "man" && p->d.education == "younger" && p->d.answer == "no") {
-            kol++;
-        }
-        p = p->next;
-    }
-    return kol;
-}
-///////////////////////////////////////////////////////////////////////////////////
-
-void create_list(List*& u, int age, std::string education, std::string gender, std::string answer) {
+void create_list(int age, std::string education, std::string gender, std::string answer) {
     write_file(age, education, gender, answer);
     Data data = { age, education, gender, answer };
     List* x = u;
@@ -220,9 +42,8 @@ void create_list(List*& u, int age, std::string education, std::string gender, s
     }
 }
 
-void load_file(List*& u) {
+void load_file() {
     std::ifstream file("data.txt");
-    file.is_open();
 
     Data data;
     while (file >> data.gender >> data.age >> data.education  >> data.answer) {
@@ -241,31 +62,27 @@ void load_file(List*& u) {
     file.close();
 }
 
-void menu_choice(sf::RenderWindow& window, sf::Music& music, List* u);
-void menu_anketa(sf::RenderWindow& window, sf::Music& music, sf::Music& music2, sf::Music& music3, List* u, sf::Music& music4, sf::Music& music6);
-void menu_main(sf::RenderWindow& window, sf::Music& music, List* u);
-void menu_great(sf::RenderWindow& window, sf::Music& music, List* u);
-void menu_result(sf::RenderWindow& window, sf::Music& music, List* u);
-void menu_m(sf::RenderWindow& window, sf::Music& music, List* u);
-void menu_w(sf::RenderWindow& window, sf::Music& music, List* u);
-void menu_settings(sf::RenderWindow& window, sf::Music& music, List* u);
+void menu_choice();
+void menu_anketa(sf::Music& music2, sf::Music& music3, sf::Music& music4, sf::Music& music6);
+void menu_main();
+void menu_great();
+void menu_result();
+void menu_m();
+void menu_w();
+void menu_settings();
+void menu_admin();
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "HUESOS", sf::Style::Fullscreen);
-    sf::Music music;
     music.openFromFile("music\\kahoot2.wav");
     music.play();
     music.setLoop(true);
-    List* u = NULL;
-    load_file(u);
-    menu_main(window, music,u);
-
-
+    load_file();
+    menu_main();
 }
 
 
-void menu_anketa(sf::RenderWindow& window, sf::Music& music, sf::Music& music2, sf::Music& music3, List* u, sf::Music& music4, sf::Music& music6) {
+void menu_anketa(sf::Music& music2, sf::Music& music3, sf::Music& music4, sf::Music& music6) {
     int kol = 0;
     List* p = u;
     //блоки
@@ -533,7 +350,7 @@ void menu_anketa(sf::RenderWindow& window, sf::Music& music, sf::Music& music2, 
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (button_back.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        menu_main(window, music,p);
+                        menu_main();
                     }
                     if (button_next.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
                         //1
@@ -604,9 +421,9 @@ void menu_anketa(sf::RenderWindow& window, sf::Music& music, sf::Music& music2, 
                         }
                         if (correct_block_1 > 0 && correct_block_2 > 0 && correct_block_3 > 0 && correct_block_4 > 0) {
 
-                            create_list(u,intValue, text_write_education.getString(), text_write_gander.getString(), text_write_vopros.getString());
+                            create_list(intValue, text_write_education.getString(), text_write_gander.getString(), text_write_vopros.getString());
                             window.clear();
-                            menu_great(window, music,u);
+                            menu_great();
                         }
                     }
                 }
@@ -668,7 +485,7 @@ void menu_anketa(sf::RenderWindow& window, sf::Music& music, sf::Music& music2, 
     }
 }
 
-void menu_main(sf::RenderWindow& window, sf::Music& music, List* u) {
+void menu_main() {
 
     sf::Texture fon;
     fon.loadFromFile("foto\\menu_1.jpg");
@@ -743,14 +560,14 @@ void menu_main(sf::RenderWindow& window, sf::Music& music, List* u) {
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (button_settings.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        menu_settings(window, music,u);
+                        menu_settings();
                     }
                 }
             }
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (button_start.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        menu_anketa(window, music, music2, music3, u, music4, music6);
+                        menu_anketa(music2, music3, music4, music6);
                     }
                 }
             }
@@ -770,7 +587,7 @@ void menu_main(sf::RenderWindow& window, sf::Music& music, List* u) {
     }
 }
 
-void menu_great(sf::RenderWindow& window, sf::Music& music, List* u) {
+void menu_great() {
 
     //блоки
 
@@ -804,7 +621,7 @@ void menu_great(sf::RenderWindow& window, sf::Music& music, List* u) {
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (button_menu.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        menu_main(window, music,u);
+                        menu_main();
                     }
                 }
             }
@@ -819,7 +636,7 @@ void menu_great(sf::RenderWindow& window, sf::Music& music, List* u) {
 
 }
 
-void menu_result(sf::RenderWindow& window, sf::Music& music, List* u) {
+void menu_result() {
     //шрифт и картинки
     sf::Font font;
     font.loadFromFile("shriftu\\Shrift.ttf");
@@ -875,22 +692,22 @@ void menu_result(sf::RenderWindow& window, sf::Music& music, List* u) {
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (button_menu.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        menu_main(window, music,u);
+                        menu_main();
                     }
                 }
             }
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (button_rest.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        menu_choice(window, music, u);
+                        menu_choice();
                     }
                 }
             }
         }
         //цифры для счёта
-        std::string str_1_card = std::to_string(Man_scarier40_higher_yes(u));
-        std::string str_2_card = std::to_string(Women_younger30_average_no(u));
-        std::string str_3_card = std::to_string(Man_younger25_initial_yes(u));
+        std::string str_1_card = std::to_string(Man_scarier40_higher_yes());
+        std::string str_2_card = std::to_string(Women_younger30_average_no());
+        std::string str_3_card = std::to_string(Man_younger25_initial_yes());
         num_man_scarier40_higher_yes.setString(str_1_card);
         num_women_younger30_average_no.setString(str_2_card);
         num_man_younger25_initial_yes.setString(str_3_card);
@@ -909,7 +726,7 @@ void menu_result(sf::RenderWindow& window, sf::Music& music, List* u) {
     }
 }
 
-void menu_choice(sf::RenderWindow& window, sf::Music& music, List* u) {
+void menu_choice() {
 
     //блоки
     sf::RectangleShape button_woman(sf::Vector2f(265, 100));
@@ -954,10 +771,10 @@ void menu_choice(sf::RenderWindow& window, sf::Music& music, List* u) {
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (button_man.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        menu_m(window, music, u);
+                        menu_m();
                     }
                     if (button_woman.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        menu_w(window, music, u);
+                        menu_w();
                     }
                 }
             }
@@ -975,7 +792,7 @@ void menu_choice(sf::RenderWindow& window, sf::Music& music, List* u) {
 
 }
 
-void menu_m(sf::RenderWindow& window, sf::Music& music, List* u) {
+void menu_m() {
 
     //блоки
 
@@ -1044,16 +861,16 @@ void menu_m(sf::RenderWindow& window, sf::Music& music, List* u) {
             }
 
         }
-        std::string str_scarier50_average_no = std::to_string(Man_scarier50_average_no(u));
-        std::string str_scarier25_initial_yes = std::to_string(Man_scarier25_initial_yes(u));
-        std::string str_scarier50_averaeg_yes = std::to_string(Man_scarier50_averaeg_yes(u));
-        std::string str_younger25_initial_no = std::to_string(Man_younger25_initial_no(u));
-        std::string str_scarier25_initial_no = std::to_string(Man_scarier25_initial_no(u));
-        std::string str_younger50_average_no = std::to_string(Man_younger50_average_no(u));
-        std::string str_younger50_average_yes = std::to_string(Man_younger50_average_yes(u));
-        std::string str_scarier40_higher_no = std::to_string(Man_scarier40_higher_no(u));
-        std::string str_younger40_higher_yes = std::to_string(Man_younger40_higher_yes(u));
-        std::string str_younger40_higher_no = std::to_string(Man_younger40_higher_no(u));
+        std::string str_scarier50_average_no = std::to_string(Man_scarier50_average_no());
+        std::string str_scarier25_initial_yes = std::to_string(Man_scarier25_initial_yes());
+        std::string str_scarier50_averaeg_yes = std::to_string(Man_scarier50_averaeg_yes());
+        std::string str_younger25_initial_no = std::to_string(Man_younger25_initial_no());
+        std::string str_scarier25_initial_no = std::to_string(Man_scarier25_initial_no());
+        std::string str_younger50_average_no = std::to_string(Man_younger50_average_no());
+        std::string str_younger50_average_yes = std::to_string(Man_younger50_average_yes());
+        std::string str_scarier40_higher_no = std::to_string(Man_scarier40_higher_no());
+        std::string str_younger40_higher_yes = std::to_string(Man_younger40_higher_yes());
+        std::string str_younger40_higher_no = std::to_string(Man_younger40_higher_no());
 
         num_man_scarier50_average_no.setString(str_scarier50_average_no);
         num_man_scarier25_initial_yes.setString(str_scarier25_initial_yes);
@@ -1084,7 +901,7 @@ void menu_m(sf::RenderWindow& window, sf::Music& music, List* u) {
 
 }
 
-void menu_w(sf::RenderWindow& window, sf::Music& music, List* u) {
+void menu_w() {
 
     //блоки
 
@@ -1123,7 +940,7 @@ void menu_w(sf::RenderWindow& window, sf::Music& music, List* u) {
 
 }
 
-void menu_settings(sf::RenderWindow& window, sf::Music& music, List* u) {
+void menu_settings() {
 
     //блоки
     sf::RectangleShape button_admin(sf::Vector2f(490, 100));
@@ -1188,7 +1005,10 @@ void menu_settings(sf::RenderWindow& window, sf::Music& music, List* u) {
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (button_end.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        menu_main(window, music, u);
+                        menu_main();
+                    }
+                    if (button_admin.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        menu_admin();
                     }
                 }
             }
@@ -1207,4 +1027,70 @@ void menu_settings(sf::RenderWindow& window, sf::Music& music, List* u) {
         window.display();
     }
 
+}
+
+void menu_admin() {
+
+
+    //блоки
+
+    sf::RectangleShape button_send(sf::Vector2f(490, 100));
+    button_send.setPosition(690, 550);
+    button_send.setFillColor(sf::Color::Transparent);
+    button_send.setOutlineColor(sf::Color::Black);
+    button_send.setOutlineThickness(2);
+
+    sf::RectangleShape button_end(sf::Vector2f(490, 100));
+    button_end.setPosition(690, 750);
+    button_end.setFillColor(sf::Color::Transparent);
+    button_end.setOutlineColor(sf::Color::Black);
+    button_end.setOutlineThickness(2);
+
+    //шрифт и картинки
+    sf::Font font;
+    font.loadFromFile("shriftu\\pirat.otf");
+
+    sf::Texture fon;
+    fon.loadFromFile("foto\\menu_na.jpg");
+    sf::Sprite img_menu(fon);
+    img_menu.setPosition(0, 0);
+    img_menu.setScale(1.30, 1.30);
+
+    //текст
+    sf::Text text_button_start(L"Вход в аккаунт", font, 65);
+    text_button_start.setPosition(700, 355);
+    text_button_start.setFillColor(sf::Color::Black);
+
+    sf::Text text_button_settings(L"Отправить", font, 65);
+    text_button_settings.setPosition(770, 555);
+    text_button_settings.setFillColor(sf::Color::Black);
+
+    sf::Text text_button_end(L"Выход", font, 65);
+    text_button_end.setPosition(830, 755);
+    text_button_end.setFillColor(sf::Color::Black);
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+                window.close();
+            }
+
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    
+                }
+            }
+        }
+
+        window.clear();
+        window.draw(img_menu);
+        window.draw(button_send);
+        window.draw(button_send);
+        window.draw(text_button_settings);
+        window.draw(button_end);
+        window.draw(text_button_end);
+        window.draw(text_button_start);
+        window.display();
+    }
 }
