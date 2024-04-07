@@ -4,10 +4,7 @@
 #include <string>
 #include <fstream>
 #include <windows.h> 
-
 #include "man_woman.h"
-
-//массив
 
 
 List* u = NULL;
@@ -24,8 +21,6 @@ void write_file(int age, std::string education, std::string gender, std::string 
     write << answer <<"\n";
     write.close();
 }
-
-
 
 void create_list(int age, std::string education, std::string gender, std::string answer) {
     write_file(age, education, gender, answer);
@@ -63,7 +58,7 @@ void load_file() {
 }
 
 void menu_choice();
-void menu_anketa(sf::Music& music2, sf::Music& music3, sf::Music& music4, sf::Music& music6);
+void menu_anketa();
 void menu_main();
 void menu_great();
 void menu_result();
@@ -71,6 +66,8 @@ void menu_m();
 void menu_w();
 void menu_settings();
 void menu_admin();
+void menu_autor();
+void menu_admin_full();
 
 int main()
 {
@@ -82,8 +79,7 @@ int main()
 }
 
 
-void menu_anketa(sf::Music& music2, sf::Music& music3, sf::Music& music4, sf::Music& music6) {
-    int kol = 0;
+void menu_anketa() {
     List* p = u;
     //блоки
     sf::RectangleShape rectangle_gendar(sf::Vector2f(700, 70));
@@ -359,27 +355,6 @@ void menu_anketa(sf::Music& music2, sf::Music& music3, sf::Music& music4, sf::Mu
                             text_check_gendar.setString("That's right");
                             correct_block_1++;
                         }
-                        else if (text_write_gander.getString() == "gay") {
-                            music.stop();
-                            kol = 2;
-                            music3.play();
-                        }
-                        else if (text_write_gander.getString() == "sashka") {
-                            music.stop();
-                            kol = 4;
-                            music2.play();
-                        }
-                        else if (text_write_gander.getString() == "PIVA") {
-                            music.stop();
-                            kol = 5;
-                            music4.play();
-                        }
-                        else if (text_write_gander.getString() == "mat") {
-                            music.stop();
-                            kol = 6;
-                            music6.play();
-                            Sleep(11000);
-                        }
                         else {
                             text_check_gendar.setFillColor(sf::Color::Red);
                             text_check_gendar.setString("That's no right(man/woman)");
@@ -429,8 +404,6 @@ void menu_anketa(sf::Music& music2, sf::Music& music3, sf::Music& music4, sf::Mu
                 }
             }
         }
-        if (kol == 0) {
-
             window.clear();
             window.draw(img_menu2);
             window.draw(ship_R);
@@ -455,33 +428,7 @@ void menu_anketa(sf::Music& music2, sf::Music& music3, sf::Music& music4, sf::Mu
             window.draw(text_check_vopros);
             window.draw(button_next);
             window.draw(text_next);
-            window.display();
-        }
-        else if (kol == 2) {
-            window.clear(sf::Color::White);
-            window.draw(textStas);
-            window.draw(sprite);
-            window.display();
-        }
-        else if (kol == 4) {
-
-            window.clear(sf::Color::White);
-            window.draw(spriteSa);
-            window.display();
-        }
-        else if (kol == 5) {
-
-            window.clear(sf::Color::White);
-            window.draw(spriteZ);
-            window.display();
-        }
-        else if (kol == 6) {
-            window.clear(sf::Color::White);
-            window.draw(ship);
-            window.display();
-
-        }
-         
+            window.display();   
     }
 }
 
@@ -554,25 +501,14 @@ void menu_main() {
                     if (button_end.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
                         window.close();
                     }
-                }
-            }
-
-            if (event.type == sf::Event::MouseButtonPressed) {
-                if (event.mouseButton.button == sf::Mouse::Left) {
                     if (button_settings.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
                         menu_settings();
                     }
-                }
-            }
-            if (event.type == sf::Event::MouseButtonPressed) {
-                if (event.mouseButton.button == sf::Mouse::Left) {
                     if (button_start.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        menu_anketa(music2, music3, music4, music6);
+                        menu_anketa();
                     }
                 }
             }
-
-
         }
 
         window.clear();
@@ -692,7 +628,7 @@ void menu_result() {
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (button_menu.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        menu_main();
+                        menu_admin_full();
                     }
                 }
             }
@@ -794,9 +730,6 @@ void menu_choice() {
 
 void menu_m() {
 
-    //блоки
-
-
 
     //шрифт и картинки
     sf::Font font;
@@ -805,6 +738,12 @@ void menu_m() {
     sf::Texture fon;
     fon.loadFromFile("foto\\м.jpg");
     sf::Sprite img_menu_m(fon);
+
+    sf::Texture back_mini;
+    back_mini.loadFromFile("foto\\back.png");
+    sf::Sprite back(back_mini);
+    back.setPosition(0, 950);
+    back.setScale(0.2, 0.2);
 
 
     //текст
@@ -859,7 +798,14 @@ void menu_m() {
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
                 window.close();
             }
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    if (back.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        menu_result();
+                    }
 
+                }
+            }
         }
         std::string str_scarier50_average_no = std::to_string(Man_scarier50_average_no());
         std::string str_scarier25_initial_yes = std::to_string(Man_scarier25_initial_yes());
@@ -885,6 +831,7 @@ void menu_m() {
 
         window.clear();
         window.draw(img_menu_m);
+        window.draw(back);
         window.draw(text_button_menu);
         window.draw(num_man_scarier50_average_no);
         window.draw(num_man_scarier25_initial_yes);
@@ -915,6 +862,11 @@ void menu_w() {
     fon.loadFromFile("foto\\ж.jpg");
     sf::Sprite img_menu_w(fon);
 
+    sf::Texture back_mini;
+    back_mini.loadFromFile("foto\\back.png");
+    sf::Sprite back(back_mini);
+    back.setPosition(0, 950);
+    back.setScale(0.2, 0.2);
 
     //текст
 
@@ -929,12 +881,19 @@ void menu_w() {
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
                 window.close();
             }
-
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    if (back.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        menu_result();
+                    }
+                }
+            }
         }
 
         window.clear();
         window.draw(img_menu_w);
         window.draw(text_button_menu);
+        window.draw(back);
         window.display();
     }
 
@@ -988,8 +947,8 @@ void menu_settings() {
     text_button_music.setPosition(820, 355);
     text_button_music.setFillColor(sf::Color::Black);
 
-    sf::Text text_button_app(L"О ПРИЛОЖЕНИИ", font, 65);
-    text_button_app.setPosition(710, 555);
+    sf::Text text_button_app(L"АВТОР", font, 65);
+    text_button_app.setPosition(835, 555);
     text_button_app.setFillColor(sf::Color::Black);
 
     sf::Text text_button_end(L"НАЗАД", font, 65);
@@ -1009,6 +968,9 @@ void menu_settings() {
                     }
                     if (button_admin.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
                         menu_admin();
+                    }
+                    if (button_app.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        menu_autor();
                     }
                 }
             }
@@ -1034,14 +996,26 @@ void menu_admin() {
 
     //блоки
 
-    sf::RectangleShape button_send(sf::Vector2f(490, 100));
-    button_send.setPosition(690, 550);
+    sf::RectangleShape rectangle_login(sf::Vector2f(700, 70));
+    rectangle_login.setPosition(600, 250);
+    rectangle_login.setFillColor(sf::Color::Transparent); // Прозрачный цвет заливки
+    rectangle_login.setOutlineColor(sf::Color::Black); // Черный цвет контура
+    rectangle_login.setOutlineThickness(2); // Толщина контура
+
+    sf::RectangleShape rectangle_password(sf::Vector2f(700, 70));
+    rectangle_password.setPosition(600, 450);
+    rectangle_password.setFillColor(sf::Color::Transparent);
+    rectangle_password.setOutlineColor(sf::Color::Black);
+    rectangle_password.setOutlineThickness(2);
+
+    sf::RectangleShape button_send(sf::Vector2f(300, 80));
+    button_send.setPosition(1000, 650);
     button_send.setFillColor(sf::Color::Transparent);
     button_send.setOutlineColor(sf::Color::Black);
     button_send.setOutlineThickness(2);
 
-    sf::RectangleShape button_end(sf::Vector2f(490, 100));
-    button_end.setPosition(690, 750);
+    sf::RectangleShape button_end(sf::Vector2f(300, 80));
+    button_end.setPosition(600, 650);
     button_end.setFillColor(sf::Color::Transparent);
     button_end.setOutlineColor(sf::Color::Black);
     button_end.setOutlineThickness(2);
@@ -1056,18 +1030,57 @@ void menu_admin() {
     img_menu.setPosition(0, 0);
     img_menu.setScale(1.30, 1.30);
 
+    sf::Texture cherep_mini_1;
+    cherep_mini_1.loadFromFile("foto\\cherep_full.png");
+    sf::Sprite cherep(cherep_mini_1);
+    cherep.setPosition(1220, 455);
+    cherep.setScale(0.060, 0.060);
+
+    sf::Texture cherep_mini_2;
+    cherep_mini_2.loadFromFile("foto\\cherep.png");
+    sf::Sprite cherep_watch(cherep_mini_2);
+    cherep_watch.setPosition(1220, 455);
+    cherep_watch.setScale(0.060, 0.060);
+
     //текст
+    sf::Text text_login(L"Логин", font, 45);
+    text_login.setFillColor(sf::Color::Black);
+    text_login.setPosition(610, 192);
+
+    sf::Text text_password(L"Пароль", font, 45);
+    text_password.setFillColor(sf::Color::Black);
+    text_password.setPosition(610, 395);
+
     sf::Text text_button_start(L"Вход в аккаунт", font, 65);
-    text_button_start.setPosition(700, 355);
+    text_button_start.setPosition(700, 100);
     text_button_start.setFillColor(sf::Color::Black);
 
-    sf::Text text_button_settings(L"Отправить", font, 65);
-    text_button_settings.setPosition(770, 555);
+    sf::Text text_button_settings(L"Вход", font, 50);
+    text_button_settings.setPosition(1100, 655);
     text_button_settings.setFillColor(sf::Color::Black);
 
-    sf::Text text_button_end(L"Выход", font, 65);
-    text_button_end.setPosition(830, 755);
+    sf::Text text_button_end(L"Назад", font, 50);
+    text_button_end.setPosition(680, 655);
     text_button_end.setFillColor(sf::Color::Black);
+
+    sf::Text error(L"Ошибка", font, 80);
+    error.setPosition(800, 800);
+    error.setFillColor(sf::Color::Transparent);
+
+    //написание
+    sf::Text text_write_login("", font);
+    text_write_login.setCharacterSize(50);
+    text_write_login.setFillColor(sf::Color::Black);
+    text_write_login.setPosition(610, 250);
+
+    sf::Text text_write_password("", font);
+    text_write_password.setCharacterSize(50);
+    text_write_password.setFillColor(sf::Color::Black);
+    text_write_password.setPosition(610, 450);
+
+    bool isRectangle1Clicked = false;
+    bool isRectangle2Clicked = false;
+    int kol_click = 0;
 
     while (window.isOpen()) {
         sf::Event event;
@@ -1078,19 +1091,202 @@ void menu_admin() {
 
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
-                    
+                    if (button_end.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        menu_settings();
+                    }
+                }
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    if (cherep.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        kol_click++;
+                    }
                 }
             }
+
+            if (event.type == sf::Event::MouseButtonPressed)
+            {
+
+                if (event.mouseButton.button == sf::Mouse::Left)
+                {
+                    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                    if (rectangle_login.getGlobalBounds().contains(mousePos.x, mousePos.y))
+                    {
+                        isRectangle1Clicked = true;
+                        isRectangle2Clicked = false;
+                    }
+                    else if (rectangle_password.getGlobalBounds().contains(mousePos.x, mousePos.y))
+                    {
+                        isRectangle1Clicked = false;
+                        isRectangle2Clicked = true;
+                    }
+                }
+            }
+            if (event.type == sf::Event::TextEntered)
+            {
+                if (event.text.unicode < 128)
+                {
+                    if (isRectangle1Clicked && text_write_login.getString().getSize() < 7)
+                    {
+                        text_write_login.setString(text_write_login.getString() + static_cast<char>(event.text.unicode));
+
+                    }
+                    if (isRectangle2Clicked && text_write_password.getString().getSize() < 7)
+                    {
+
+                        text_write_password.setString(text_write_password.getString() + static_cast<char>(event.text.unicode));
+                    }
+                }
+            }
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    if (button_send.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        if (text_write_login.getString() == "log" && text_write_password.getString() == "pas") {
+                            menu_admin_full();
+                        }
+                        else {
+                            error.setFillColor(sf::Color::Red);
+                        }
+                    }
+                }
+            }
+
+
+
         }
 
         window.clear();
         window.draw(img_menu);
+        window.draw(rectangle_password);
+        window.draw(rectangle_login);
+        window.draw(text_login);
+        window.draw(text_password);
+        window.draw(text_write_password);
+        window.draw(text_write_login);
         window.draw(button_send);
         window.draw(button_send);
         window.draw(text_button_settings);
         window.draw(button_end);
         window.draw(text_button_end);
         window.draw(text_button_start);
+        if (kol_click % 2 == 0) {
+            window.draw(cherep);
+        }
+        else {
+            window.draw(cherep_watch);
+        }
+        window.draw(error);
         window.display();
     }
+}
+
+void menu_autor() {
+
+    //блоки
+
+
+    sf::RectangleShape button_end(sf::Vector2f(380, 130));
+    button_end.setPosition(800, 950);
+    button_end.setFillColor(sf::Color::Transparent);
+
+    //шрифт и картинки
+
+    sf::Texture fon;
+    fon.loadFromFile("foto\\pirat.jpg");
+    sf::Sprite img_menu(fon);
+
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+                window.close();
+            }
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    if (button_end.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        menu_settings();
+                    }
+                }
+            }
+        }
+
+        window.clear();
+        window.draw(img_menu);
+        window.draw(button_end);
+        window.display();
+    }
+
+}
+
+void menu_admin_full() {
+
+    //блоки
+    sf::RectangleShape button_list(sf::Vector2f(490, 100));
+    button_list.setPosition(690, 250);
+    button_list.setFillColor(sf::Color::Transparent); // Прозрачный цвет заливки
+    button_list.setOutlineColor(sf::Color::Black); // Черный цвет контура
+    button_list.setOutlineThickness(2); // Толщина контура
+
+
+    sf::RectangleShape button_result(sf::Vector2f(490, 100));
+    button_result.setPosition(690, 450);
+    button_result.setFillColor(sf::Color::Transparent);
+    button_result.setOutlineColor(sf::Color::Black);
+    button_result.setOutlineThickness(2);
+
+    sf::RectangleShape button_end(sf::Vector2f(490, 100));
+    button_end.setPosition(690, 650);
+    button_end.setFillColor(sf::Color::Transparent);
+    button_end.setOutlineColor(sf::Color::Black);
+    button_end.setOutlineThickness(2);
+
+    //шрифт
+    sf::Font font;
+    font.loadFromFile("shriftu\\pirat.otf");
+
+
+    //текст
+
+    sf::Text text_button_list(L"СПИСОК", font, 65);
+    text_button_list.setPosition(830, 255);
+    text_button_list.setFillColor(sf::Color::Black);
+
+    sf::Text text_button_result(L"РЕЗУЛЬТАТЫ", font, 65);
+    text_button_result.setPosition(750, 455);
+    text_button_result.setFillColor(sf::Color::Black);
+
+    sf::Text text_button_end(L"ВЫХОД", font, 65);
+    text_button_end.setPosition(835, 655);
+    text_button_end.setFillColor(sf::Color::Black);
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+                window.close();
+            }
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    if (button_end.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        menu_main();
+                    }
+                    if (button_list.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+ 
+                    }
+                    if (button_result.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        menu_result();
+                    }
+                }
+            }
+        }
+
+        window.clear(sf::Color(240, 185, 84));
+        window.draw(button_list);
+        window.draw(button_result);
+        window.draw(text_button_result);
+        window.draw(button_end);
+        window.draw(text_button_end);
+        window.draw(text_button_list);
+        window.display();
+    }
+
 }

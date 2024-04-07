@@ -20,3 +20,4 @@ man 18 average yes
 man 123 initial yes
 man 12 initial yes
 woman 5 average no
+man 123 initial yes

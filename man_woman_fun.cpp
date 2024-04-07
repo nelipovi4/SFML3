@@ -9,10 +9,7 @@
 
 extern List* u;
 
-///////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////////////////////////////////////////
 int Man_younger25_initial_yes() {
     int kol = 0;
     List* p = u;
@@ -51,7 +48,7 @@ int Women_younger30_average_no() {
     }
     return kol;
 }
-///////////////////////////////
+
 
 int Man_scarier50_averaeg_yes() {
     int kol = 0;
@@ -104,7 +101,7 @@ int Man_younger50_average_yes() {
     }
     return kol;
 }
-///////////////////////////////////
+
 
 int Man_younger25_initial_no() {
     int kol = 0;
@@ -144,7 +141,7 @@ int Man_scarier25_initial_no() {
     }
     return kol;
 }
-///////////////////////////////////
+
 
 int Man_scarier40_higher_no() {
     int kol = 0;
@@ -184,4 +181,3 @@ int Man_younger40_higher_no() {
     }
     return kol;
 }
-///////////////////////////////////////////////////////////////////////////////////
