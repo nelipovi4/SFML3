@@ -4,8 +4,8 @@
 #include <string>
 #include <fstream>
 #include <windows.h> 
-
 #include "man_woman.h"
+#include "menu_and_list.h"
 
 extern List* u;
 
