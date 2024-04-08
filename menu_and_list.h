@@ -14,3 +14,4 @@ void menu_settings();
 void menu_admin();
 void menu_autor();
 void menu_admin_full();
+void menu_list();

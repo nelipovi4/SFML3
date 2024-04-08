@@ -175,6 +175,11 @@ void menu_anketa() {
     int correct_block_2 = 0;
     int correct_block_3 = 0;
     int correct_block_4 = 0;
+
+    std::string str_gander;
+    std::string str_age;
+    std::string str_education;
+    std::string str_vopros;
     while (window.isOpen())
     {
         sf::Event event;
@@ -223,58 +228,62 @@ void menu_anketa() {
 
             }
 
-            //написание и пределы по буквам
+            //написание и пределы по буквам + очистка
             if (event.type == sf::Event::TextEntered)
             {
                 if (event.text.unicode < 128)
                 {
-                    if (isRectangle1Clicked && text_write_gander.getString().getSize() < 6)
-                    {
-                        text_write_gander.setString(text_write_gander.getString() + static_cast<char>(event.text.unicode));
+                    char inputChar = static_cast<char>(event.text.unicode);
 
+                    if (isRectangle1Clicked && text_write_gander.getString().getSize() < 6 && event.text.unicode != 8)
+                    {
+                        str_gander += inputChar;
                     }
-                    if (isRectangle2Clicked && text_write_age.getString().getSize() < 3)
+                    else if (isRectangle2Clicked && text_write_age.getString().getSize() < 3 && std::isdigit(inputChar) && event.text.unicode != 8)
                     {
+                        str_age += inputChar;
+                        intValue = std::stoi(str_age);
+                    }
+                    else if (isRectangle3Clicked && text_write_education.getString().getSize() < 7 && event.text.unicode != 8)
+                    {
+                        str_education += inputChar;
+                    }
+                    else if (isRectangle4Clicked && text_write_vopros.getString().getSize() < 3 && event.text.unicode != 8)
+                    {
+                        str_vopros += inputChar;
+                    }
 
-                        char inputChar = static_cast<char>(event.text.unicode);
-
-
-                        if (std::isdigit(inputChar))
+                    if (event.text.unicode == 8) // Backspace
+                    {
+                        if (isRectangle1Clicked && !str_gander.empty())
                         {
-
-                            text_write_age.setString(text_write_age.getString() + inputChar);
-
-                            std::string age = text_write_age.getString();
-                            intValue = std::stoi(age);
+                            str_gander.pop_back();
+                        }
+                        else if (isRectangle2Clicked && !str_age.empty())
+                        {
+                            str_age.pop_back();
+                            intValue = str_age.empty() ? 0 : std::stoi(str_age);
+                        }
+                        else if (isRectangle3Clicked && !str_education.empty())
+                        {
+                            str_education.pop_back();
+                        }
+                        else if (isRectangle4Clicked && !str_vopros.empty())
+                        {
+                            str_vopros.pop_back();
                         }
                     }
-                    if (isRectangle3Clicked && text_write_education.getString().getSize() < 7)
-                    {
-                        text_write_education.setString(text_write_education.getString() + static_cast<char>(event.text.unicode));
-                    }
-                    if (isRectangle4Clicked && text_write_vopros.getString().getSize() < 3)
-                    {
-                        text_write_vopros.setString(text_write_vopros.getString() + static_cast<char>(event.text.unicode));
-                    }
+
+                    text_write_gander.setString(str_gander);
+                    text_write_age.setString(str_age);
+                    text_write_education.setString(str_education);
+                    text_write_vopros.setString(str_vopros);
                 }
             }
+
+
             //очитска
-            if (event.type == sf::Event::MouseButtonPressed) {
-                if (event.mouseButton.button == sf::Mouse::Left) {
-                    if (rectangle_gendar.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        text_write_gander.setString("");
-                    }
-                    if (rectangle_age.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        text_write_age.setString("");
-                    }
-                    if (rectangle_education.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        text_write_education.setString("");
-                    }
-                    if (rectangle_vopros.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        text_write_vopros.setString("");
-                    }
-                }
-            }
+            
 
             //проверка
             if (event.type == sf::Event::MouseButtonPressed) {
@@ -927,10 +936,11 @@ void menu_settings() {
 
 void menu_admin() {
 
-    /* std::ifstream file_log_pas("data.txt");
-     std::string login,password;*/
+     std::ifstream file_log_pas("login_password.txt");
+     std::string login_str,password_str;
      //блоки
-    /*std::string file_log_pas >> login >> password*/;
+     file_log_pas >> login_str >> password_str;
+     file_log_pas.close();
 
     sf::RectangleShape rectangle_login(sf::Vector2f(700, 70));
     rectangle_login.setPosition(600, 250);
@@ -1098,7 +1108,7 @@ void menu_admin() {
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (button_send.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        if (text_write_login.getString() == "log" && text_write_password.getString() == "pas") {
+                        if (text_write_login.getString() == login_str && text_write_password.getString() == password_str) {
                             menu_admin_full();
                         }
                         else {
@@ -1230,7 +1240,7 @@ void menu_admin_full() {
                         menu_main();
                     }
                     if (button_list.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-
+                        menu_list();
                     }
                     if (button_result.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
                         menu_result();
@@ -1248,5 +1258,43 @@ void menu_admin_full() {
         window.draw(text_button_list);
         window.display();
     }
+
+}
+
+void menu_list() {
+
+
+    //шрифт
+    sf::Font font;
+    font.loadFromFile("shriftu\\pirat.otf");
+
+    std::ifstream file("data.txt");
+    std::string line;
+    sf::Text text("", font, 40);
+    int y = 0;
+
+    window.clear(sf::Color(240, 185, 84)); 
+
+    while (std::getline(file, line))
+    {
+        text.setString(line);
+        text.setPosition(100, y * 7);
+        window.draw(text);
+        y += 7;
+    }
+
+    window.display(); 
+
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+                window.close();
+            }
+        }
+    }
+
 
 }
