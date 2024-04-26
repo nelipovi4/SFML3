@@ -3,6 +3,7 @@ void write_file(int age, std::string education, std::string gender, std::string 
 void create_list(int age, std::string education, std::string gender, std::string answer);
 void load_file();
 
+
 void menu_choice();
 void menu_anketa();
 void menu_main();
@@ -15,3 +16,4 @@ void menu_admin();
 void menu_autor();
 void menu_admin_full();
 void menu_list();
+void menu_music();

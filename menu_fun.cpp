@@ -6,14 +6,16 @@
 #include <windows.h> 
 #include "man_woman.h"
 #include "menu_and_list.h"
-
+#include <vector>
 extern List* u;
-
+int i = 0;
+bool music_start = true;
 extern sf::Music music;
 extern sf::RenderWindow window;
 
 
 void menu_anketa() {
+
     List* p = u;
     //блоки
     sf::RectangleShape rectangle_gendar(sf::Vector2f(700, 70));
@@ -379,22 +381,23 @@ void menu_main() {
 
     sf::Texture fon;
     fon.loadFromFile("foto\\menu_1.jpg");
-
     sf::Sprite sprite(fon);
     sprite.setPosition(-200, -100);
 
-    sf::Music music2;
-    music2.openFromFile("music\\xomick.wav");
+    sf::Texture effect_1;
+    effect_1.loadFromFile("effect\\rect_start.png");
+    sf::Sprite effect_start(effect_1);
+    effect_start.setPosition(11200, 100);
 
-    sf::Music music3;
-    music3.openFromFile("music\\gy.wav");
+    sf::Texture effect_2;
+    effect_2.loadFromFile("effect\\rect_settings.png");
+    sf::Sprite effect_settings(effect_2);
+    effect_settings.setPosition(11200, 100);
 
-    sf::Music music4;
-    music4.openFromFile("music\\Zhe.wav");
-
-    sf::Music music6;
-    music6.openFromFile("music\\mat.wav");
-
+    sf::Texture effect_3;
+    effect_3.loadFromFile("effect\\rect_end.png");
+    sf::Sprite effect_end(effect_3);
+    effect_end.setPosition(11200, 100);
     //блоки
     sf::RectangleShape button_start(sf::Vector2f(490, 100));
     button_start.setPosition(690, 350);
@@ -452,6 +455,21 @@ void menu_main() {
                     }
                 }
             }
+            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            if (button_start.getGlobalBounds().contains(mousePos.x, mousePos.y))
+                effect_start.setPosition(680, 345);
+            else
+                effect_start.setPosition(11200, 100);
+            
+            if (button_settings.getGlobalBounds().contains(mousePos.x, mousePos.y))
+                effect_settings.setPosition(button_settings.getGlobalBounds().getPosition().x, button_settings.getGlobalBounds().getPosition().y);
+            else
+                effect_settings.setPosition(11200, 100);
+
+            if (button_end.getGlobalBounds().contains(mousePos.x, mousePos.y))
+                effect_end.setPosition(button_end.getGlobalBounds().getPosition().x, button_end.getGlobalBounds().getPosition().y);
+            else
+                effect_end.setPosition(10000, 100);
         }
 
         window.clear();
@@ -462,6 +480,9 @@ void menu_main() {
         window.draw(button_end);
         window.draw(text_button_end);
         window.draw(text_button_start);
+        window.draw(effect_start);
+        window.draw(effect_settings);
+        window.draw(effect_end);
         window.display();
     }
 }
@@ -915,6 +936,9 @@ void menu_settings() {
                     if (button_app.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
                         menu_autor();
                     }
+                    if (button_music.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        menu_music();
+                    }
                 }
             }
         }
@@ -1227,7 +1251,7 @@ void menu_admin_full() {
     sf::Text text_button_end(L"ВЫХОД", font, 65);
     text_button_end.setPosition(835, 655);
     text_button_end.setFillColor(sf::Color::Black);
-
+    
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -1297,4 +1321,142 @@ void menu_list() {
     }
 
 
+}
+
+void menu_music() {
+    //шрифт и картинки
+    sf::Font font;
+    font.loadFromFile("shriftu\\Shrift.ttf");
+
+    sf::Texture fon;
+    fon.loadFromFile("foto\\menu_na.jpg");
+    sf::Sprite img_menu(fon);
+    img_menu.setPosition(0, 0);
+    img_menu.setScale(1.30, 1.30);
+
+    sf::Texture Rig;
+    Rig.loadFromFile("foto\\R.png");
+    sf::Sprite rig(Rig);
+    rig.setPosition(1150, 550);
+    rig.setScale(0.2, 0.2);
+
+    sf::Texture Lef;
+    Lef.loadFromFile("foto\\L.png");
+    sf::Sprite lef(Lef);
+    lef.setPosition(550, 550);
+    lef.setScale(0.2, 0.2);
+
+    //блоки
+    sf::RectangleShape button_end(sf::Vector2f(300, 80));
+    button_end.setPosition(780, 750);
+    button_end.setFillColor(sf::Color::Transparent);
+    button_end.setOutlineColor(sf::Color::Black);
+    button_end.setOutlineThickness(2);
+
+    //текст
+    sf::Text text_button_end(L"Назад", font, 50);
+    text_button_end.setPosition(850, 759);
+    text_button_end.setFillColor(sf::Color::Black);
+
+    sf::Text edit(L"Изменить", font, 50);
+    edit.setPosition(810, 570);
+    edit.setFillColor(sf::Color::Black);
+
+    sf::Text turn_up(L"Вкл", font, 70);
+    turn_up.setPosition(1050, 300);
+
+    sf::Text switch_of(L"Выкл", font, 70);
+    switch_of.setPosition(650, 300);
+
+    if (music_start) {
+        turn_up.setFillColor(sf::Color::Black);
+        switch_of.setFillColor(sf::Color(128, 128, 128));
+    }
+    else {
+        switch_of.setFillColor(sf::Color::Black);
+        turn_up.setFillColor(sf::Color(128, 128, 128));
+    }
+
+
+    std::ifstream file("file_music.txt");
+    std::vector<std::string> musicArray;
+    std::string new_music;
+
+    while (file >> new_music) {
+        musicArray.push_back(new_music);
+    }
+
+    file.close();
+    int len_vector = musicArray.size();
+
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+                window.close();
+            }
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    if (button_end.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        menu_settings();
+                    }
+                    if (switch_of.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        music_start = false;
+                        music.stop();
+                        switch_of.setFillColor(sf::Color::Black);
+                        turn_up.setFillColor(sf::Color(128, 128, 128));
+                    }
+                    if (turn_up.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        music_start = true;
+                        music.play();
+                        turn_up.setFillColor(sf::Color::Black);
+                        switch_of.setFillColor(sf::Color(128, 128, 128));
+                    }
+                    if (rig.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        i++;
+                        if (i < len_vector) {
+                            music_start = true;
+                            turn_up.setFillColor(sf::Color::Black);
+                            switch_of.setFillColor(sf::Color(128, 128, 128));
+                            music.stop();
+                            music.openFromFile("music\\" + musicArray[i]);
+                            music.play();
+                            music.setLoop(true);
+                        }
+                        else {
+                            i--;
+                        }
+                    }
+                    if (lef.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        i--;
+                        if (i >= 0) {
+                            music_start = true;
+                            turn_up.setFillColor(sf::Color::Black);
+                            switch_of.setFillColor(sf::Color(128, 128, 128));
+                            music.stop();
+                            music.openFromFile("music\\" + musicArray[i]);
+                            music.play();
+                            music.setLoop(true);
+                        }
+                        else {
+                            i++;
+                        }
+                    }
+
+                }
+            }
+        }
+
+        window.clear();
+        window.draw(img_menu);
+        window.draw(button_end);
+        window.draw(text_button_end);
+        window.draw(edit);
+        window.draw(rig);
+        window.draw(lef);
+        window.draw(switch_of);
+        window.draw(turn_up);
+        window.display();
+    }
 }

@@ -6,7 +6,7 @@
 #include <windows.h> 
 #include "man_woman.h"
 #include "menu_and_list.h"
-
+#include <vector>
 extern List* u;
 
 extern sf::Music music;
