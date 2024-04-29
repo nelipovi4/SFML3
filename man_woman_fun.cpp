@@ -9,7 +9,7 @@
 
 extern List* u;
 
-
+//основное задание
 int Man_younger25_initial_yes() {
     int kol = 0;
     List* p = u;
@@ -49,7 +49,7 @@ int Women_younger30_average_no() {
     return kol;
 }
 
-
+//доп. мужская часть
 int Man_scarier50_averaeg_yes() {
     int kol = 0;
     List* p = u;
@@ -181,3 +181,8 @@ int Man_younger40_higher_no() {
     }
     return kol;
 }
+
+//доп. женская часть
+
+
+

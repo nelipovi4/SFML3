@@ -285,7 +285,7 @@ void menu_anketa() {
 
 
             //очитска
-            
+
 
             //проверка
             if (event.type == sf::Event::MouseButtonPressed) {
@@ -460,7 +460,7 @@ void menu_main() {
                 effect_start.setPosition(680, 345);
             else
                 effect_start.setPosition(11200, 100);
-            
+
             if (button_settings.getGlobalBounds().contains(mousePos.x, mousePos.y))
                 effect_settings.setPosition(button_settings.getGlobalBounds().getPosition().x, button_settings.getGlobalBounds().getPosition().y);
             else
@@ -767,7 +767,6 @@ void menu_m() {
                     if (back.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
                         menu_result();
                     }
-
                 }
             }
         }
@@ -865,6 +864,28 @@ void menu_w() {
 
 void menu_settings() {
 
+    //эффекты
+
+    sf::Texture effect_1;
+    effect_1.loadFromFile("effect\\Admin_set.png");
+    sf::Sprite effect_admin(effect_1);
+    effect_admin.setPosition(11200, 100);
+
+    sf::Texture effect_2;
+    effect_2.loadFromFile("effect\\back.png");
+    sf::Sprite effect_back(effect_2);
+    effect_back.setPosition(11200, 100);
+
+    sf::Texture effect_3;
+    effect_3.loadFromFile("effect\\music_set.png");
+    sf::Sprite effect_music(effect_3);
+    effect_music.setPosition(11200, 100);
+
+    sf::Texture effect_4;
+    effect_4.loadFromFile("effect\\pirat.png");
+    sf::Sprite effect_pirat(effect_4);
+    effect_pirat.setPosition(11200, 100);
+
     //блоки
     sf::RectangleShape button_admin(sf::Vector2f(490, 100));
     button_admin.setPosition(690, 150);
@@ -941,6 +962,26 @@ void menu_settings() {
                     }
                 }
             }
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                if (button_admin.getGlobalBounds().contains(mousePos.x, mousePos.y))
+                    effect_admin.setPosition(button_admin.getGlobalBounds().getPosition().x, button_admin.getGlobalBounds().getPosition().y);
+                else
+                    effect_admin.setPosition(11200, 100);
+
+                if (button_music.getGlobalBounds().contains(mousePos.x, mousePos.y))
+                    effect_music.setPosition(button_music.getGlobalBounds().getPosition().x, button_music.getGlobalBounds().getPosition().y);
+                else
+                    effect_music.setPosition(11200, 100);
+
+                if (button_end.getGlobalBounds().contains(mousePos.x, mousePos.y))
+                    effect_back.setPosition(button_end.getGlobalBounds().getPosition().x, button_end.getGlobalBounds().getPosition().y);
+                else
+                    effect_back.setPosition(10000, 100);
+
+                if (button_app.getGlobalBounds().contains(mousePos.x, mousePos.y))
+                    effect_pirat.setPosition(button_app.getGlobalBounds().getPosition().x, button_app.getGlobalBounds().getPosition().y);
+                else
+                    effect_pirat.setPosition(10000, 100);
         }
 
         window.clear();
@@ -953,6 +994,10 @@ void menu_settings() {
         window.draw(text_button_admin);
         window.draw(button_app);
         window.draw(text_button_app);
+        window.draw(effect_admin);
+        window.draw(effect_back);
+        window.draw(effect_music);
+        window.draw(effect_pirat);
         window.display();
     }
 
@@ -960,11 +1005,13 @@ void menu_settings() {
 
 void menu_admin() {
 
-     std::ifstream file_log_pas("login_password.txt");
-     std::string login_str,password_str;
-     //блоки
-     file_log_pas >> login_str >> password_str;
-     file_log_pas.close();
+   
+
+    std::ifstream file_log_pas("login_password.txt");
+    std::string login_str, password_str;
+    //блоки
+    file_log_pas >> login_str >> password_str;
+    file_log_pas.close();
 
     sf::RectangleShape rectangle_login(sf::Vector2f(700, 70));
     rectangle_login.setPosition(600, 250);
@@ -1060,6 +1107,18 @@ void menu_admin() {
     std::string str_password;
     std::string str_password_close;
 
+
+    //эффекты
+    sf::Texture effect_1;
+    effect_1.loadFromFile("effect\\vxod_admin.png");
+    sf::Sprite effect_vxod(effect_1);
+    effect_vxod.setPosition(11200, 100);
+
+    sf::Texture effect_2;
+    effect_2.loadFromFile("effect\\back_ad.png");
+    sf::Sprite effect_back(effect_2);
+    effect_back.setPosition(11200, 100);
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -1142,6 +1201,17 @@ void menu_admin() {
                 }
             }
 
+            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+            if (button_send.getGlobalBounds().contains(mousePos.x, mousePos.y))
+                effect_vxod.setPosition(button_send.getGlobalBounds().getPosition().x, button_send.getGlobalBounds().getPosition().y);
+            else
+                effect_vxod.setPosition(11200, 100);
+
+            if (button_end.getGlobalBounds().contains(mousePos.x, mousePos.y))
+                effect_back.setPosition(button_end.getGlobalBounds().getPosition().x, button_end.getGlobalBounds().getPosition().y);
+            else
+                effect_back.setPosition(10000, 100);
 
 
         }
@@ -1168,6 +1238,8 @@ void menu_admin() {
             window.draw(text_write_password);
         }
         window.draw(error);
+        window.draw(effect_back);
+        window.draw(effect_vxod);
         window.display();
     }
 }
@@ -1212,6 +1284,21 @@ void menu_autor() {
 }
 
 void menu_admin_full() {
+    //эффекты
+    sf::Texture effect_1;
+    effect_1.loadFromFile("effect\\list_list.png");
+    sf::Sprite effect_list(effect_1);
+    effect_list.setPosition(11200, 100);
+
+    sf::Texture effect_2;
+    effect_2.loadFromFile("effect\\result_list.png");
+    sf::Sprite effect_result(effect_2);
+    effect_result.setPosition(11200, 100);
+
+    sf::Texture effect_3;
+    effect_3.loadFromFile("effect\\end_list.png");
+    sf::Sprite effect_end(effect_3);
+    effect_end.setPosition(11200, 100);
 
     //блоки
     sf::RectangleShape button_list(sf::Vector2f(490, 100));
@@ -1251,7 +1338,7 @@ void menu_admin_full() {
     sf::Text text_button_end(L"ВЫХОД", font, 65);
     text_button_end.setPosition(835, 655);
     text_button_end.setFillColor(sf::Color::Black);
-    
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -1272,42 +1359,60 @@ void menu_admin_full() {
                 }
             }
         }
+        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+        if (button_list.getGlobalBounds().contains(mousePos.x, mousePos.y))
+            effect_list.setPosition(button_list.getGlobalBounds().getPosition().x, button_list.getGlobalBounds().getPosition().y);
+        else
+            effect_list.setPosition(11200, 100);
 
-        window.clear(sf::Color(240, 185, 84));
-        window.draw(button_list);
-        window.draw(button_result);
-        window.draw(text_button_result);
-        window.draw(button_end);
-        window.draw(text_button_end);
-        window.draw(text_button_list);
-        window.display();
-    }
+        if (button_result.getGlobalBounds().contains(mousePos.x, mousePos.y))
+            effect_result.setPosition(button_result.getGlobalBounds().getPosition().x, button_result.getGlobalBounds().getPosition().y);
+        else
+            effect_result.setPosition(11200, 100);
 
+        if (button_end.getGlobalBounds().contains(mousePos.x, mousePos.y))
+            effect_end.setPosition(button_end.getGlobalBounds().getPosition().x, button_end.getGlobalBounds().getPosition().y);
+        else
+            effect_end.setPosition(10000, 100);
+
+    window.clear(sf::Color(240, 185, 84));
+    window.draw(button_list);
+    window.draw(button_result);
+    window.draw(text_button_result);
+    window.draw(button_end);
+    window.draw(text_button_end);
+    window.draw(text_button_list);
+    window.draw(effect_end);
+    window.draw(effect_list);
+    window.draw(effect_result);
+    window.display();
+}
 }
 
 void menu_list() {
-
-
-    //шрифт
+    //шрифт и картинки
     sf::Font font;
     font.loadFromFile("shriftu\\pirat.otf");
 
+    sf::Texture back_mini;
+    back_mini.loadFromFile("foto\\back.png");
+    sf::Sprite back(back_mini);
+    back.setPosition(0, 950);
+    back.setScale(0.2, 0.2);
+
+
     std::ifstream file("data.txt");
     std::string line;
-    sf::Text text("", font, 40);
+    std::vector<sf::Text> texts;
     int y = 0;
-
-    window.clear(sf::Color(240, 185, 84)); 
 
     while (std::getline(file, line))
     {
-        text.setString(line);
+        sf::Text text(line, font, 40);
         text.setPosition(100, y * 7);
-        window.draw(text);
+        texts.push_back(text);
         y += 7;
     }
-
-    window.display(); 
 
     while (window.isOpen())
     {
@@ -1317,13 +1422,37 @@ void menu_list() {
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
                 window.close();
             }
+            if (event.type == sf::Event::MouseWheelScrolled) {
+                y -= event.mouseWheelScroll.delta * 10; 
+                for (auto& text : texts) {
+                    text.move(0, +event.mouseWheelScroll.delta * 10);
+                }
+            }
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    if (back.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        menu_admin_full();
+                    }
+                }
+            }
         }
+
+        window.clear(sf::Color(240, 185, 84));
+        for (const auto& text : texts) {
+            window.draw(text);
+        }
+        window.draw(back);
+        window.display();
     }
-
-
 }
 
 void menu_music() {
+    //эффекты
+    sf::Texture effect_1;
+    effect_1.loadFromFile("effect\\music.png");
+    sf::Sprite effect_music(effect_1);
+    effect_music.setPosition(11200, 100);
+
     //шрифт и картинки
     sf::Font font;
     font.loadFromFile("shriftu\\Shrift.ttf");
@@ -1446,6 +1575,12 @@ void menu_music() {
 
                 }
             }
+
+            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            if (button_end.getGlobalBounds().contains(mousePos.x, mousePos.y))
+                effect_music.setPosition(button_end.getGlobalBounds().getPosition().x, button_end.getGlobalBounds().getPosition().y);
+            else
+                effect_music.setPosition(11200, 100);
         }
 
         window.clear();
@@ -1457,6 +1592,7 @@ void menu_music() {
         window.draw(lef);
         window.draw(switch_of);
         window.draw(turn_up);
+        window.draw(effect_music);
         window.display();
     }
 }

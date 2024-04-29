@@ -17,3 +17,5 @@ void menu_autor();
 void menu_admin_full();
 void menu_list();
 void menu_music();
+void menu_list();
+void menu_music();
