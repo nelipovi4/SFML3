@@ -813,10 +813,6 @@ void menu_m() {
 
 void menu_w() {
 
-    //блоки
-
-
-
     //шрифт и картинки
     sf::Font font;
     font.loadFromFile("shriftu\\Shrift.ttf");
@@ -833,9 +829,49 @@ void menu_w() {
 
     //текст
 
-    sf::Text text_button_menu(L"", font, 75);
-    text_button_menu.setPosition(500, 500);
-    text_button_menu.setFillColor(sf::Color::White);
+    sf::Text  num_women_younger50_higher_yes("", font, 50); 
+    num_women_younger50_higher_yes.setPosition(1630, 365);
+    num_women_younger50_higher_yes.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_women_younger50_higher_no("", font, 50); 
+    num_women_younger50_higher_no.setPosition(1320, 365);
+    num_women_younger50_higher_no.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_women_scarier50_higher_yes("", font, 50);
+    num_women_scarier50_higher_yes.setPosition(727, 365);
+    num_women_scarier50_higher_yes.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_women_scarier50_higher_no("", font, 50);
+    num_women_scarier50_higher_no.setPosition(1010, 365);
+    num_women_scarier50_higher_no.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_women_younger25_average_yes("", font, 50);
+    num_women_younger25_average_yes.setPosition(1390, 835);
+    num_women_younger25_average_yes.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_women_scarier30_average_yes("", font, 50);
+    num_women_scarier30_average_yes.setPosition(435, 365);
+    num_women_scarier30_average_yes.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_women_scarier30_average_no("", font, 50);
+    num_women_scarier30_average_no.setPosition(1645, 833);
+    num_women_scarier30_average_no.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_women_younger50_initial_yes("", font, 50);
+    num_women_younger50_initial_yes.setPosition(905, 833);
+    num_women_younger50_initial_yes.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_women_younger50_initial_no("", font, 50);
+    num_women_younger50_initial_no.setPosition(655, 836);
+    num_women_younger50_initial_no.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_women_scarier50_initial_yes("", font, 45);
+    num_women_scarier50_initial_yes.setPosition(1140, 833);
+    num_women_scarier50_initial_yes.setFillColor(sf::Color(255, 235, 205));
+
+    sf::Text num_women_scarier50_initial_no("", font, 50);
+    num_women_scarier50_initial_no.setPosition(410, 830);
+    num_women_scarier50_initial_no.setFillColor(sf::Color(255, 235, 205));
 
 
     while (window.isOpen()) {
@@ -851,12 +887,50 @@ void menu_w() {
                     }
                 }
             }
+
+            std::string str_younger50_higher_yes = std::to_string(Women_younger50_higher_yes());
+            std::string str_younger50_higher_no = std::to_string(Women_younger50_higher_no());
+            std::string str_scarier50_higher_yes = std::to_string(Women_scarier50_higher_yes());
+            std::string str_scarier50_higher_no = std::to_string(Women_scarier50_higher_no());
+
+            std::string str_younger25_average_no = std::to_string(Women_younger25_average_yes());
+            std::string str_scarier30_average_yes = std::to_string(Women_scarier30_average_yes());
+            std::string str_scarier30_average_no = std::to_string(Women_scarier30_average_no());
+
+            std::string str_younger50_initial_yes = std::to_string(Women_younger50_initial_yes());
+            std::string str_younger50_initial_no = std::to_string(Women_younger50_initial_no());
+            std::string str_scarier50_initial_yes = std::to_string(Women_scarier50_initial_yes());
+            std::string str_scarier50_initial_no = std::to_string(Women_scarier50_initial_no());
+
+            num_women_younger50_higher_yes.setString(str_younger50_higher_yes);
+            num_women_younger50_higher_no.setString(str_younger50_higher_no);
+            num_women_scarier50_higher_yes.setString(str_scarier50_higher_yes);
+            num_women_scarier50_higher_no.setString(str_scarier50_higher_no);
+
+            num_women_younger25_average_yes.setString(str_younger25_average_no);
+            num_women_scarier30_average_yes.setString(str_scarier30_average_yes);
+            num_women_scarier30_average_no.setString(str_scarier30_average_no);
+
+            num_women_younger50_initial_yes.setString(str_younger50_initial_yes);
+            num_women_younger50_initial_no.setString(str_younger50_initial_no);
+            num_women_scarier50_initial_yes.setString(str_scarier50_initial_yes);
+            num_women_scarier50_initial_no.setString(str_scarier50_initial_no);
         }
 
         window.clear();
         window.draw(img_menu_w);
-        window.draw(text_button_menu);
         window.draw(back);
+        window.draw(num_women_younger50_higher_yes);
+        window.draw(num_women_younger50_higher_no);
+        window.draw(num_women_scarier50_higher_yes);
+        window.draw(num_women_scarier50_higher_no);
+        window.draw(num_women_younger25_average_yes);
+        window.draw(num_women_scarier30_average_yes);
+        window.draw(num_women_scarier30_average_no);
+        window.draw(num_women_younger50_initial_yes);
+        window.draw(num_women_younger50_initial_no);
+        window.draw(num_women_scarier50_initial_yes);
+        window.draw(num_women_scarier50_initial_no);
         window.display();
     }
 
@@ -1595,4 +1669,4 @@ void menu_music() {
         window.draw(effect_music);
         window.display();
     }
-}
+}    
