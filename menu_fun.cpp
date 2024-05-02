@@ -8,7 +8,7 @@
 #include "menu_and_list.h"
 #include <vector>
 extern List* u;
-int i = 0;
+int num_music = 0;
 bool music_start = true;
 extern sf::Music music;
 extern sf::RenderWindow window;
@@ -1474,33 +1474,50 @@ void menu_list() {
     back.setPosition(0, 950);
     back.setScale(0.2, 0.2);
 
-
-    std::ifstream file("data.txt");
-    std::string line;
-    std::vector<sf::Text> texts;
-    int y = 0;
-
-    while (std::getline(file, line))
-    {
-        sf::Text text(line, font, 40);
-        text.setPosition(100, y * 7);
-        texts.push_back(text);
-        y += 7;
-    }
-
+    int scroll = 0;
+    int stop = 0;
     while (window.isOpen())
     {
+        List* temp = u; // начинаем с начала списка
+        int distance = 0;
+        int y_position = 130 + scroll; // начальная позиция y для текста
+        int y_position_rect = 100 + scroll;
         sf::Event event;
+        window.clear(sf::Color(240, 185, 84));
+        while (temp != nullptr) {
+            distance += 75;
+            sf::Text text;
+            text.setFont(font);
+            text.setCharacterSize(50);
+            text.setFillColor(sf::Color::White);
+
+            // формируем строку с данными
+            std::string data_string = std::to_string(temp->d.age) + " " +
+                temp->d.education + " " +
+                temp->d.gender + " " +
+                temp->d.answer;
+
+            sf::RectangleShape rect(sf::Vector2f(600, 120));
+            rect.setPosition(690, y_position_rect + distance);
+            rect.setFillColor(sf::Color(181,127,57));
+
+            text.setString(data_string);
+            text.setPosition(730, y_position + distance); // устанавливаем позицию текста
+
+            window.draw(rect);
+            window.draw(text); 
+
+            y_position += 100; 
+            y_position_rect += 100; 
+            temp = temp->next; // переходим к следующему элементу списка
+        }
+        window.draw(back);
+        window.display();
+
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
                 window.close();
-            }
-            if (event.type == sf::Event::MouseWheelScrolled) {
-                y -= event.mouseWheelScroll.delta * 10; 
-                for (auto& text : texts) {
-                    text.move(0, +event.mouseWheelScroll.delta * 10);
-                }
             }
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
@@ -1509,15 +1526,23 @@ void menu_list() {
                     }
                 }
             }
-        }
+            if (event.type == sf::Event::MouseWheelScrolled) {
 
-        window.clear(sf::Color(240, 185, 84));
-        for (const auto& text : texts) {
-            window.draw(text);
+                if (scroll > 0) {
+                    scroll = 0;
+                }
+                else if (scroll <= 0 && scroll >=  - 3500) {
+                    scroll += event.mouseWheelScroll.delta * 30;
+                }
+                else if (scroll <  - 3500) {
+                    scroll =  - 3500;
+                }
+
+            }
         }
-        window.draw(back);
-        window.display();
     }
+
+
 }
 
 void menu_music() {
@@ -1617,33 +1642,33 @@ void menu_music() {
                         switch_of.setFillColor(sf::Color(128, 128, 128));
                     }
                     if (rig.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        i++;
-                        if (i < len_vector) {
+                        num_music++;
+                        if (num_music < len_vector) {
                             music_start = true;
                             turn_up.setFillColor(sf::Color::Black);
                             switch_of.setFillColor(sf::Color(128, 128, 128));
                             music.stop();
-                            music.openFromFile("music\\" + musicArray[i]);
+                            music.openFromFile("music\\" + musicArray[num_music]);
                             music.play();
                             music.setLoop(true);
                         }
                         else {
-                            i--;
+                            num_music--;
                         }
                     }
                     if (lef.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                        i--;
-                        if (i >= 0) {
+                        num_music--;
+                        if (num_music >= 0) {
                             music_start = true;
                             turn_up.setFillColor(sf::Color::Black);
                             switch_of.setFillColor(sf::Color(128, 128, 128));
                             music.stop();
-                            music.openFromFile("music\\" + musicArray[i]);
+                            music.openFromFile("music\\" + musicArray[num_music]);
                             music.play();
                             music.setLoop(true);
                         }
                         else {
-                            i++;
+                            num_music++;
                         }
                     }
 
