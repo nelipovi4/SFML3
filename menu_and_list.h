@@ -19,3 +19,5 @@ void menu_list();
 void menu_music();
 void menu_list();
 void menu_music();
+void menu_password();
+void menu_tex();

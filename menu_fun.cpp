@@ -7,6 +7,7 @@
 #include "man_woman.h"
 #include "menu_and_list.h"
 #include <vector>
+
 extern List* u;
 int num_music = 0;
 bool music_start = true;
@@ -15,8 +16,6 @@ extern sf::RenderWindow window;
 
 
 void menu_anketa() {
-
-    List* p = u;
     //блоки
     sf::RectangleShape rectangle_gendar(sf::Vector2f(700, 70));
     rectangle_gendar.setPosition(600, 150);
@@ -94,15 +93,10 @@ void menu_anketa() {
     sf::Font font;
     font.loadFromFile("shriftu\\pirat.otf");
 
-    sf::Text textStas(L"Стас ГЕЙ", font);
-    textStas.setCharacterSize(100);
-    textStas.setFillColor(sf::Color::Red);
-    textStas.setPosition(610, 260);
-
 
     //основная часть
 
-    sf::Text text_gander(L"Какой у вас пол?", font, 45);
+    sf::Text text_gander(L"Какой у вас пол?(на англ)", font, 45);
     text_gander.setFillColor(sf::Color::Black);
     text_gander.setPosition(610, 92);
 
@@ -110,11 +104,11 @@ void menu_anketa() {
     text_age.setFillColor(sf::Color::Black);
     text_age.setPosition(610, 295);
 
-    sf::Text text_education(L"Какое у вас образование?", font, 45);
+    sf::Text text_education(L"Какое у вас образование?(на англ)", font, 45);
     text_education.setFillColor(sf::Color::Black);
     text_education.setPosition(610, 490);
 
-    sf::Text text_vopros(L"Вы пират?", font, 45);
+    sf::Text text_vopros(L"Вы пират?(на англ)", font, 45);
     text_vopros.setFillColor(sf::Color::Black);
     text_vopros.setPosition(610, 690);
 
@@ -282,10 +276,6 @@ void menu_anketa() {
                     text_write_vopros.setString(str_vopros);
                 }
             }
-
-
-            //очитска
-
 
             //проверка
             if (event.type == sf::Event::MouseButtonPressed) {
@@ -1083,10 +1073,10 @@ void menu_admin() {
 
     std::ifstream file_log_pas("login_password.txt");
     std::string login_str, password_str;
-    //блоки
     file_log_pas >> login_str >> password_str;
     file_log_pas.close();
 
+    //блоки
     sf::RectangleShape rectangle_login(sf::Vector2f(700, 70));
     rectangle_login.setPosition(600, 250);
     rectangle_login.setFillColor(sf::Color::Transparent); // Прозрачный цвет заливки
@@ -1132,6 +1122,16 @@ void menu_admin() {
     sf::Sprite cherep_watch(cherep_mini_2);
     cherep_watch.setPosition(1220, 455);
     cherep_watch.setScale(0.060, 0.060);
+
+    sf::Texture mini_tex;
+    mini_tex.loadFromFile("foto\\rect_tex.png");
+    sf::Sprite tex(mini_tex);
+    tex.setPosition(40, 950);
+
+    sf::Texture mini_tex_full;
+    mini_tex_full.loadFromFile("foto\\ful_tex.png");
+    sf::Sprite tex_full(mini_tex_full);
+    tex_full.setPosition(40, 760);
 
     //текст
     sf::Text text_login(L"Логин", font, 45);
@@ -1180,7 +1180,7 @@ void menu_admin() {
     std::string str_login;
     std::string str_password;
     std::string str_password_close;
-
+    int kol_tex = 0;
 
     //эффекты
     sf::Texture effect_1;
@@ -1275,6 +1275,23 @@ void menu_admin() {
                 }
             }
 
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left && kol_tex == 1) {
+                    if (tex_full.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        menu_tex();
+                    }
+                }
+            }
+
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    if (tex.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        kol_tex = 1;
+                    }
+                }
+            }
+
+
             sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
             if (button_send.getGlobalBounds().contains(mousePos.x, mousePos.y))
@@ -1303,6 +1320,7 @@ void menu_admin() {
         window.draw(button_end);
         window.draw(text_button_end);
         window.draw(text_button_start);
+
         if (kol_click % 2 == 0) {
             window.draw(cherep);
             window.draw(text_write_password_star);
@@ -1310,6 +1328,13 @@ void menu_admin() {
         else {
             window.draw(cherep_watch);
             window.draw(text_write_password);
+        }
+
+        if (kol_tex == 0) {
+            window.draw(tex);
+        }
+        else {
+            window.draw(tex_full);
         }
         window.draw(error);
         window.draw(effect_back);
@@ -1374,6 +1399,11 @@ void menu_admin_full() {
     sf::Sprite effect_end(effect_3);
     effect_end.setPosition(11200, 100);
 
+    sf::Texture effect_4;
+    effect_4.loadFromFile("effect\\log_pas.png");
+    sf::Sprite effect_set(effect_4);
+    effect_set.setPosition(11200, 100);
+
     //блоки
     sf::RectangleShape button_list(sf::Vector2f(490, 100));
     button_list.setPosition(690, 250);
@@ -1388,11 +1418,18 @@ void menu_admin_full() {
     button_result.setOutlineColor(sf::Color::Black);
     button_result.setOutlineThickness(2);
 
+    sf::RectangleShape button_set(sf::Vector2f(490, 100));
+    button_set.setPosition(690, 630);
+    button_set.setFillColor(sf::Color::Transparent);
+    button_set.setOutlineColor(sf::Color::Black);
+    button_set.setOutlineThickness(2);
+
     sf::RectangleShape button_end(sf::Vector2f(490, 100));
-    button_end.setPosition(690, 650);
+    button_end.setPosition(690, 790);
     button_end.setFillColor(sf::Color::Transparent);
     button_end.setOutlineColor(sf::Color::Black);
     button_end.setOutlineThickness(2);
+
 
     //шрифт
     sf::Font font;
@@ -1409,8 +1446,12 @@ void menu_admin_full() {
     text_button_result.setPosition(750, 455);
     text_button_result.setFillColor(sf::Color::Black);
 
+    sf::Text text_button_set(L"ПАРОЛЬ И ЛОГИН", font, 60);
+    text_button_set.setPosition(700, 640);
+    text_button_set.setFillColor(sf::Color::Black);
+
     sf::Text text_button_end(L"ВЫХОД", font, 65);
-    text_button_end.setPosition(835, 655);
+    text_button_end.setPosition(835, 800);
     text_button_end.setFillColor(sf::Color::Black);
 
     while (window.isOpen()) {
@@ -1430,6 +1471,9 @@ void menu_admin_full() {
                     if (button_result.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
                         menu_result();
                     }
+                    if (button_set.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        menu_password();
+                    }
                 }
             }
         }
@@ -1448,17 +1492,24 @@ void menu_admin_full() {
             effect_end.setPosition(button_end.getGlobalBounds().getPosition().x, button_end.getGlobalBounds().getPosition().y);
         else
             effect_end.setPosition(10000, 100);
+        if (button_set.getGlobalBounds().contains(mousePos.x, mousePos.y))
+            effect_set.setPosition(button_set.getGlobalBounds().getPosition().x, button_set.getGlobalBounds().getPosition().y);
+        else
+            effect_set.setPosition(10000, 100);
 
     window.clear(sf::Color(240, 185, 84));
     window.draw(button_list);
     window.draw(button_result);
+    window.draw(button_set);
     window.draw(text_button_result);
     window.draw(button_end);
     window.draw(text_button_end);
+    window.draw(text_button_set);
     window.draw(text_button_list);
     window.draw(effect_end);
     window.draw(effect_list);
     window.draw(effect_result);
+    window.draw(effect_set);
     window.display();
 }
 }
@@ -1531,11 +1582,11 @@ void menu_list() {
                 if (scroll > 0) {
                     scroll = 0;
                 }
-                else if (scroll <= 0 && scroll >=  - 3500) {
+                else if (scroll <= 0 && scroll >=  - 3700) {
                     scroll += event.mouseWheelScroll.delta * 30;
                 }
-                else if (scroll <  - 3500) {
-                    scroll =  - 3500;
+                else if (scroll <  - 3700) {
+                    scroll =  - 3700;
                 }
 
             }
@@ -1695,3 +1746,310 @@ void menu_music() {
         window.display();
     }
 }    
+
+void menu_password() {
+    //шрифт и картинки
+    sf::Font font;
+    font.loadFromFile("shriftu\\pirat.otf");
+    sf::Texture back_mini;
+    back_mini.loadFromFile("foto\\back.png");
+    sf::Sprite back(back_mini);
+    back.setPosition(0, 950);
+    back.setScale(0.2, 0.2);
+
+    //блоки
+    sf::RectangleShape rectangle_login(sf::Vector2f(500, 70));
+    rectangle_login.setPosition(300, 350);
+    rectangle_login.setFillColor(sf::Color::Transparent); // Прозрачный цвет заливки
+    rectangle_login.setOutlineColor(sf::Color::Black); // Черный цвет контура
+    rectangle_login.setOutlineThickness(2); // Толщина контура
+
+    sf::RectangleShape rectangle_password(sf::Vector2f(500, 70));
+    rectangle_password.setPosition(300, 550);
+    rectangle_password.setFillColor(sf::Color::Transparent);
+    rectangle_password.setOutlineColor(sf::Color::Black);
+    rectangle_password.setOutlineThickness(2);
+
+
+    sf::RectangleShape rectangle_login_new(sf::Vector2f(500, 70));
+    rectangle_login_new.setPosition(1200, 350);
+    rectangle_login_new.setFillColor(sf::Color::Transparent); // Прозрачный цвет заливки
+    rectangle_login_new.setOutlineColor(sf::Color::Black); // Черный цвет контура
+    rectangle_login_new.setOutlineThickness(2); // Толщина контура
+
+    sf::RectangleShape rectangle_password_new(sf::Vector2f(500, 70));
+    rectangle_password_new.setPosition(1200, 550);
+    rectangle_password_new.setFillColor(sf::Color::Transparent);
+    rectangle_password_new.setOutlineColor(sf::Color::Black);
+    rectangle_password_new.setOutlineThickness(2);
+
+    sf::RectangleShape rectangle_save(sf::Vector2f(400, 80));
+    rectangle_save.setPosition(780, 800);
+    rectangle_save.setFillColor(sf::Color::Transparent);
+    rectangle_save.setOutlineColor(sf::Color::Black);
+    rectangle_save.setOutlineThickness(2);
+
+    //текст
+    sf::Text text_login(L"Логин", font, 45);
+    text_login.setFillColor(sf::Color::Black);
+    text_login.setPosition(310, 292);
+
+    sf::Text text_password(L"Пароль", font, 45);
+    text_password.setFillColor(sf::Color::Black);
+    text_password.setPosition(310, 495);
+
+    sf::Text text_login_new(L"Логин", font, 45);
+    text_login_new.setFillColor(sf::Color::Black);
+    text_login_new.setPosition(1210, 292);
+
+    sf::Text text_password_new(L"Пароль", font, 45);
+    text_password_new.setFillColor(sf::Color::Black);
+    text_password_new.setPosition(1210, 495);
+
+    sf::Text text_save(L"СОХРАНИТЬ", font, 60);
+    text_save.setFillColor(sf::Color::Black);
+    text_save.setPosition(830, 800);
+
+    sf::Text error(L"Ошибка", font, 80);
+    error.setPosition(800, 900);
+    error.setFillColor(sf::Color::Transparent);
+
+    sf::Text correct(L"Успешно", font, 80);
+    correct.setPosition(800, 900);
+    correct.setFillColor(sf::Color::Transparent);
+
+    sf::Text text_old(L"СТАРЫЙ", font, 80);
+    text_old.setFillColor(sf::Color::Black);
+    text_old.setPosition(400, 100);
+
+    sf::Text text_new(L"НОВЫЙ", font, 80);
+    text_new.setFillColor(sf::Color::Black);
+    text_new.setPosition(1350, 100);
+
+    //написание
+    sf::Text text_write_login("", font);
+    text_write_login.setCharacterSize(50);
+    text_write_login.setFillColor(sf::Color::Black);
+    text_write_login.setPosition(310, 350);
+
+    sf::Text text_write_password("", font);
+    text_write_password.setCharacterSize(50);
+    text_write_password.setFillColor(sf::Color::Black);
+    text_write_password.setPosition(310, 550);
+
+    sf::Text text_write_login_new("", font);
+    text_write_login_new.setCharacterSize(50);
+    text_write_login_new.setFillColor(sf::Color::Black);
+    text_write_login_new.setPosition(1210, 350);
+
+    sf::Text text_write_password_new("", font);
+    text_write_password_new.setCharacterSize(50);
+    text_write_password_new.setFillColor(sf::Color::Black);
+    text_write_password_new.setPosition(1210, 550);
+
+
+    // переменные
+    bool isRectangle1Clicked = false;
+    bool isRectangle2Clicked = false;
+    bool isRectangle3Clicked = false;
+    bool isRectangle4Clicked = false;
+
+    std::string str_login;
+    std::string str_password;
+    std::string str_login_new;
+    std::string str_password_new;
+
+    std::ifstream file_log_pas("login_password.txt");
+    std::string login_str, password_str;
+    file_log_pas >> login_str >> password_str;
+    file_log_pas.close();
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+                window.close();
+            }
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    if (back.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        menu_admin_full();
+                    }
+                }
+            }
+            //запрет на области
+            if (event.type == sf::Event::MouseButtonPressed)
+            {
+
+                if (event.mouseButton.button == sf::Mouse::Left)
+                {
+                    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                    if (rectangle_login.getGlobalBounds().contains(mousePos.x, mousePos.y))
+                    {
+                        isRectangle1Clicked = true;
+                        isRectangle2Clicked = false;
+                        isRectangle3Clicked = false;
+                        isRectangle4Clicked = false;
+                    }
+                    else if (rectangle_password.getGlobalBounds().contains(mousePos.x, mousePos.y))
+                    {
+                        isRectangle1Clicked = false;
+                        isRectangle2Clicked = true;
+                        isRectangle3Clicked = false;
+                        isRectangle4Clicked = false;
+                    }
+                    else if (rectangle_login_new.getGlobalBounds().contains(mousePos.x, mousePos.y))
+                    {
+                        isRectangle1Clicked = false;
+                        isRectangle2Clicked = false;
+                        isRectangle3Clicked = true;
+                        isRectangle4Clicked = false;
+                    }
+                    else if (rectangle_password_new.getGlobalBounds().contains(mousePos.x, mousePos.y))
+                    {
+                        isRectangle1Clicked = false;
+                        isRectangle2Clicked = false;
+                        isRectangle3Clicked = false;
+                        isRectangle4Clicked = true;
+                    }
+                }
+
+            }
+
+            //написание и пределы по буквам + очистка
+            if (event.type == sf::Event::TextEntered)
+            {
+                if (event.text.unicode < 128)
+                {
+                    if (event.text.unicode == 8 and isRectangle1Clicked)
+                    { // Backspace
+                        if (!str_login.empty())
+                            str_login.pop_back();
+                    }
+                    else if (isRectangle1Clicked and text_write_login.getString().getSize() < 7)
+                        str_login += static_cast<char>(event.text.unicode);
+
+
+                    if (event.text.unicode == 8 and isRectangle2Clicked)
+                    { // Backspace
+                        if (!str_password.empty())
+                            str_password.pop_back();
+                    }
+                    else if (isRectangle2Clicked and text_write_password.getString().getSize() < 7)
+                        str_password += static_cast<char>(event.text.unicode);
+
+                    if (event.text.unicode == 8 and isRectangle3Clicked)
+                    { // Backspace
+                        if (!str_login_new.empty())
+                            str_login_new.pop_back();
+                    }
+                    else if (isRectangle3Clicked and text_write_login_new.getString().getSize() < 7)
+                        str_login_new += static_cast<char>(event.text.unicode);
+
+
+                    if (event.text.unicode == 8 and isRectangle4Clicked)
+                    { // Backspace
+                        if (!str_password_new.empty())
+                            str_password_new.pop_back();
+                    }
+                    else if (isRectangle4Clicked and text_write_password_new.getString().getSize() < 7)
+                        str_password_new += static_cast<char>(event.text.unicode);
+                }
+                text_write_login.setString(str_login);
+                text_write_password.setString(str_password);
+
+                text_write_login_new.setString(str_login_new);
+                text_write_password_new.setString(str_password_new);
+            }
+
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    if (rectangle_save.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        if (text_write_login.getString() == login_str && text_write_password.getString() == password_str) {
+                            login_str = text_write_login_new.getString();
+                            password_str = text_write_password_new.getString();
+
+                            std::ofstream file_log_pas("login_password.txt");
+                            file_log_pas << login_str<< "\n" << password_str;
+                            file_log_pas.close();
+
+                            error.setFillColor(sf::Color::Transparent);
+                            correct.setFillColor(sf::Color::Green);
+                        }
+                        else {
+                            correct.setFillColor(sf::Color::Transparent);
+                            error.setFillColor(sf::Color::Red);
+                        }
+                    }
+                }
+            }
+        }
+        window.clear(sf::Color(240, 185, 84));
+        window.draw(back);
+        window.draw(rectangle_password);
+        window.draw(rectangle_login);
+        window.draw(text_login);
+        window.draw(text_password);
+        window.draw(text_write_login);
+        window.draw(text_write_password);
+
+        window.draw(rectangle_password_new);
+        window.draw(rectangle_login_new);
+        window.draw(text_login_new);
+        window.draw(text_password_new);
+        window.draw(text_write_login_new);
+        window.draw(text_write_password_new);
+
+        window.draw(rectangle_save);
+        window.draw(text_save);
+        window.draw(error);
+        window.draw(correct);
+        window.draw(text_new);
+        window.draw(text_old);
+        window.display();
+    }
+
+
+
+}
+
+void menu_tex() {
+    //шрифт и картинки
+    sf::Font font;
+    font.loadFromFile("shriftu\\pirat.otf");
+
+    sf::Texture back_mini;
+    back_mini.loadFromFile("foto\\back.png");
+    sf::Sprite back(back_mini);
+    back.setPosition(0, 950);
+    back.setScale(0.2, 0.2);
+
+    sf::Texture mini_img;
+    mini_img.loadFromFile("foto\\tex.jpg");
+    sf::Sprite img(mini_img);
+
+   
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+                window.close();
+            }
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    if (back.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        menu_admin();
+                    }
+                }
+            }
+            
+        }
+        window.clear(sf::Color(240, 185, 84));
+        window.draw(img);
+        window.draw(back);
+        window.display();
+    }
+
+
+
+}

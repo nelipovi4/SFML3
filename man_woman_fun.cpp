@@ -121,7 +121,7 @@ int Man_scarier25_initial_yes() {
     List* p = u;
     while (p)
     {
-        if (p->d.age > 50 && p->d.gender == "man" && p->d.education == "initial" && p->d.answer == "yes") {
+        if (p->d.age > 25 && p->d.gender == "man" && p->d.education == "initial" && p->d.answer == "yes") {
             kol++;
         }
         p = p->next;

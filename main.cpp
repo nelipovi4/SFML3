@@ -13,7 +13,7 @@ sf::RenderWindow window(sf::VideoMode(1920, 1080), "Hello World", sf::Style::Ful
 
 int main()
 {
-    //взятие муpыки 
+    //взятие музыки 
     music.openFromFile("music\\kahoot2.wav");
 
     music.play();
